@@ -1,0 +1,138 @@
+<!-- Estas líneas se deben borrar luego, son solo hasta que exista current_user y la implementación devise -->
+
+
+<!-- -----------------------------------------------------------------------------------  -->
+<% connected = current_user %>
+<% if connected %><% isadmin = (current_user.has_role? :admin) %><% end %>
+
+<body class="course-show-body">
+  <div class="block">
+    <p id="notice"><%= notice %></p>
+
+
+    <div class="course-name"> <%= @course.name.upcase %> </div>
+
+    <div class="link center falsebutton"> <%= link_to 'Volver a lista de cursos', courses_path %> </div>
+
+    <div class="subtitle"> Campus: </div>
+    <div class="text"> <%= @course.campus_id %> </div> <br>
+
+
+    <div class="subtitle"> Nombre del curso: </div>
+    <div class="text"> <%= @course.description.capitalize %> </div> <br>
+
+    <% if connected && isadmin %>
+      <div class="subtitle"> Herramientas de edición para administradores: </div>
+      <%= link_to 'Editar curso', edit_course_path(@course) %>
+      <%= link_to 'Eliminar curso', @course, method: :delete, data: { confirm: 'Are you sure?' } %>
+    <% end%>
+
+
+    <br><br>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-6 userlistcol">
+          <div class="subtitle center"> Lista de profesores del curso: </div>
+          <% Suscription.where(course_id: @course.id, sbtype: "teacher").each do |prof| %>
+            <%= User.find(prof.user_id).username %><br>
+          <% end %>
+        </div>
+        <div class="col-6 userlistcol">
+          <div class="subtitle center"> Lista de alumnos del curso: </div>
+          <% Suscription.where(course_id: @course.id, sbtype: "alumno").each do |prof| %>
+            <%= User.find(prof.user_id).username %><br>
+          <% end %>
+        </div>
+
+      </div>
+
+    </div>
+
+
+
+
+
+
+
+
+
+    <br><br>
+    <div class="subtitle"> Publicaciones del curso </div>
+
+    <!-- Botón para crear nuevo post -->
+    <div class="link center falsebutton"> <%= link_to 'Crear nueva publicación para el curso', {:controller => "posts",
+                                                                                                :action => "new",
+                                                                                                :course_id => @course.id} %> </div>
+
+    <div class="posts">
+
+      <% @course.posts.each do |post| %>
+
+        <div class="posttitle"> <%= link_to post.id.to_s + "-" + post.title.capitalize, post %> </div>
+
+        <%= strip_tags(post.content)[0..200] + " ..." %>
+
+        <br><br>
+        <strong>Calificación:</strong>
+        <%= post.rate %>
+      </p>
+      <hr>
+      <% end %>
+
+
+    </div>
+
+    <!-- BOTONES -->
+  <!-- Comporbación para ver si está conectado o no -->
+  <% if connected %>
+    <!-- Comprobación para ver si es alumno -->
+    <% if (Suscription.exists?(:user_id => current_user.id, :course_id => @course.id, :sbtype => "alumno")) %>
+      Ya te encuentras suscrito al curso <%= @course.name %> como alumno.
+      <%= button_to 'Quitar suscripción al curso como alumno', {:controller => "courses",
+                                                    :action => "desuscribe",
+                                                    :id => @course.id,
+                                                    :user_id => current_user.id,
+                                                    :sbtype => "alumno",
+                                                    :method => :post} %>
+
+    <% else %>
+      Actualmente no te encuentras suscrito al curso <%= @course.name %> como alumno.
+      <%= button_to 'Suscribirse al curso como alumno', {:controller => "courses",
+                                             :action => "suscribe",
+                                             :id => @course.id,
+                                             :user_id => current_user.id,
+                                             :sbtype => "alumno",
+                                             :method => :post} %>
+    <% end %>
+
+    <!-- Comprobación para ver si es profesor particular -->
+    <% if (Suscription.exists?(:user_id => current_user.id, :course_id => @course.id, :sbtype => "teacher")) %>
+      Ya te encuentras suscrito al curso <%= @course.name %> como profesor particular.
+      <%= button_to 'Quitar suscripción como profesor particular', {:controller => "courses",
+                                                    :action => "desuscribe",
+                                                    :id => @course.id,
+                                                    :user_id => current_user.id,
+                                                    :sbtype => "teacher",
+                                                    :method => :post} %>
+
+    <% else %>
+      Actualmente no te encuentras suscrito al curso <%= @course.name %> como profesor particular.
+      <%= button_to 'Suscribirse al curso como profesor particular', {:controller => "courses",
+                                             :action => "suscribe",
+                                             :id => @course.id,
+                                             :user_id => current_user.id,
+                                             :sbtype => "teacher",
+                                             :method => :post} %>
+    <% end %>
+
+  <% else %>
+    Neceistas estar conectado para poder suscribirte a cursos
+  <% end %>
+  </div>
+
+
+
+
+
+</body>

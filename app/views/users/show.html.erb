@@ -1,0 +1,12 @@
+<center>
+<h1><%= @user.realname %></h1>
+<h2><%= @user.username %></h2>
+<h3>Contact: <%= @user.email %></h3>
+<h5>Bio:  <%= @user.bio%> </h5>
+<h6>Subscriptions</h6>
+<%# @user.subscriptions.each do |subscription| %>
+    <%#= link_to "Subscription: %subscription.id" [subscription.id] , subscription_path(Subscription.find(subscription.id))
+<% end %> 
+<%= link_to  "Edit profile", edit_user_registration_path(@user) %>
+</h5>
+</center>

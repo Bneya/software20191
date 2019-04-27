@@ -30,6 +30,24 @@ gem 'jbuilder', '~> 2.5'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
+
+# Rubocop
+gem 'rubocop'
+
+# Cosas nuevas
+gem "ckeditor"
+
+
+gem 'bootstrap-sass', '~> 3.4.1'
+gem 'sassc-rails', '>= 2.1.0'
+gem 'devise'
+gem 'simple_form'
+gem "rolify"
+
+gem 'jquery-rails'
+
+
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 

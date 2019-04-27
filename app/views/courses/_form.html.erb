@@ -1,0 +1,48 @@
+<!-- Estas líneas se deben borrar luego, son solo hasta que exista current_user y la implementación devise -->
+
+<!-- -----------------------------------------------------------------------------------  -->
+<% connected = current_user %>
+<% if connected %><% isadmin = (current_user.has_role? :admin) %><% end %>
+
+<% if connected && isadmin  %>
+
+    <%= form_with(model: course, local: true) do |form| %>
+      <% if course.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(course.errors.count, "error") %> Este error impidió crear el curso:</h2>
+
+          <ul>
+          <% course.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div class="field">
+        <%= form.label "Sigla curso" %>
+        <%= form.text_field :name,
+                            id: :course_name %>
+      </div>
+
+      <div class="field">
+        <%= form.label :campus_id %>
+        <%= form.number_field :campus_id, id: :course_campus_id %>
+      </div>
+
+      <div class="field">
+        <%= form.label "Nombre curso" %>
+        <%= form.text_area :description, id: :course_description %>
+      </div>
+
+      <div class="actions">
+        <%= form.submit %>
+      </div>
+    <% end %>
+
+
+<% else %>
+<div class="errorcustom"> ERROR: Solo los administradores tiene el poder para hacer esto :( </div>
+
+
+<% end %>

@@ -1,0 +1,28 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @campus.name %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @campus.description %>
+</p>
+
+<p>
+  <strong>Location map:</strong>
+  <%= @campus.location_map %>
+</p>
+
+<p>
+  <strong>Salas en el campus: </strong>
+  <%# @campus.rooms.each do |room| %>
+    <%#= link_to room.title, room_path(Room.find(room.id)) %>
+    <%# end %>
+  </p>
+
+<% if current_user and current_user.has_role? :admin %>
+<%= link_to 'Edit', edit_campus_path(@campus) %> |
+<%end%>
+<%= link_to 'Back', campuses_path %>

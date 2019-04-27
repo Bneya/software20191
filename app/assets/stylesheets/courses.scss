@@ -1,0 +1,60 @@
+// Place all the styles related to the Courses controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.course-name {
+  font-size: 30px;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.course-show-body {
+  background-color: lightseagreen;
+}
+
+.course-show-body .block {
+  background-color: white;
+  border-radius: 10px;
+  padding: 5px;
+  margin: 20px;
+}
+
+.block .posts {
+  background-color: #d9d9d9;
+  border-radius: 10px;
+  padding: 5px;
+  margin-top: 10px;
+}
+
+.block .subtitle {
+  font-size: 10px;
+  color: gray;
+}
+
+.block .text {
+  text-align: justify;
+}
+
+.block.link {
+  color: lightseagreen;
+}
+
+.posts .posttitle {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.center {
+  text-align: center;
+}
+
+.falsebutton {
+  background-color: lightseagreen;
+  color: white;
+  margin: 1px;
+  border-radius: 1px;
+}
+
+.block .userlistcol {
+  border: 1px solid black;
+}
