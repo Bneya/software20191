@@ -16,10 +16,10 @@
 </p>
 
 <p>
-  <strong>Salas en el campus: </strong>
-  <%# @campus.rooms.each do |room| %>
-    <%#= link_to room.title, room_path(Room.find(room.id)) %>
-    <%# end %>
+  <strong>Cursos en el campus: </strong>
+  <% Course.where(campus_id: @campus.id).each do |course| %>
+    <%= link_to "Curso %s" [course.name], courses_path(course) %>
+    <% end %>
   </p>
 
 <% if current_user and current_user.has_role? :admin %>

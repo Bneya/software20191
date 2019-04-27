@@ -1,0 +1,54 @@
+<%# # PLACE HOLDER # %>
+<%# <% :rating_noise = 1 %> %>
+<%# <% :rating_disponibility = 1 %> %>
+<%# <% :rating_sockets = 1 %> %>
+
+<%# ################ %>
+
+<%= form_with(model: classroom, local: true) do |form| %>
+  <% if classroom.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(classroom.errors.count, "error") %> prohibited this classroom from being saved:</h2>
+
+      <ul>
+      <% classroom.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :title %>
+    <%= form.text_area :title, id: :classroom_title %>
+  </div>
+
+  <div class="field">
+    <%= form.label :ubication %>
+    <%= form.text_area :ubication, id: :classroom_ubication %>
+  </div>
+
+  <div class="field">
+    <%= form.label :campus_id %>
+    <%= form.number_field :campus_id, id: :classroom_campus_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :rating_noise %>
+    <%= form.number_field :rating_noise, id: :classroom_rating_noise %>
+  </div>
+
+  <div class="field">
+    <%= form.label :rating_disponibility %>
+    <%= form.number_field :rating_disponibility, id: :classroom_rating_disponibility %>
+  </div>
+
+  <div class="field">
+    <%= form.label :rating_sockets %>
+    <%= form.number_field :rating_sockets, id: :classroom_rating_sockets %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

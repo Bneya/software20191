@@ -1,6 +1,9 @@
 <h1>Editing Campus</h1>
-
+<%= link_to 'Show', @campus %> |
 <%= render 'form', campus: @campus %>
 
-<%= link_to 'Show', @campus %> |
+<div class="link center falsebutton"> <%= link_to 'Create class for this campus', {:controller => "courses",
+    :action => "new",
+    :campus_id => @campus.id} %> </div>
+    
 <%= link_to 'Back', campuses_path %>

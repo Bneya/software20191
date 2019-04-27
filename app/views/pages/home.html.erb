@@ -1,6 +1,8 @@
 <h1>Home page!</h1>
-<%= link_to "Campuses list", campuses_path %><br>
-<%= link_to "Lista de todos los cursos de todos los campus", courses_path %>
+<%= link_to "Lista de campus", campuses_path %><br>
+<%= link_to "Lista de todos los cursos de todos los campus", courses_path %><br>
+<%= link_to "Lista de salas", classrooms_path %><br>
+<%= link_to "Lista de eventos", events_path %>
 <hr>
 <% if  current_user %>
 <%= link_to "My profile", user_path(User.find(current_user.id)) %>

@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyText
+  ubication: MyText
+  campus_id: 1
+  rating_noise: 1
+  rating_disponibility: 1
+  rating_sockets: 1
+
+two:
+  title: MyText
+  ubication: MyText
+  campus_id: 1
+  rating_noise: 1
+  rating_disponibility: 1
+  rating_sockets: 1

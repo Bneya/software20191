@@ -1,0 +1,31 @@
+<% @salas = ["sala1", "sala2", "sala3", "sala4", "sala5", "sala6", "sala7", "sala8"]%>
+<% @horarios = [1, 2, 3, 4, 5, 7, 8, 9, 10] %>
+<% @salasid = [1, 2, 3, 4, 5, 7, 8, 9, 10] %>
+
+
+<table class="table table-hover">
+  <thead class="thead-dark">
+    <tr>
+      <th>Sala</th>
+      <% @horarios.each do |sala| %>
+        <th> <%= sala %> </th>
+      <% end %>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+
+    <% @salasid.each do |sid| %>
+      <tr>
+
+        <% @horarios.each do |hor| %>
+        <td><%= link_to sid.to_s + "," + hor.to_s,new_course_path %></td>
+        <% end %>
+      </tr>
+    <% end%>
+
+
+
+  </tbody>
+</table>

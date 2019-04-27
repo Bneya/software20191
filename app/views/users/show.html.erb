@@ -4,9 +4,12 @@
 <h3>Contact: <%= @user.email %></h3>
 <h5>Bio:  <%= @user.bio%> </h5>
 <h6>Subscriptions</h6>
-<%# @user.subscriptions.each do |subscription| %>
-    <%#= link_to "Subscription: %subscription.id" [subscription.id] , subscription_path(Subscription.find(subscription.id))
-<% end %> 
+<p>
+<strong>Subscribed to: </strong>
+<%Suscription.where(user_id: @user.id).distinct.pluck(:course_id).each do |course| %>
+<%= link_to "Curso %d"[course], courses_path(course) %>
+<% end %>
+</p>
 <%= link_to  "Edit profile", edit_user_registration_path(@user) %>
 </h5>
 </center>

@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @classroom.title %>
+</p>
+
+<p>
+  <strong>Ubication:</strong>
+  <%= @classroom.ubication %>
+</p>
+
+<p>
+  <strong>Campus:</strong>
+  <%= @classroom.campus_id %>
+</p>
+
+<p>
+  <strong>Rating noise:</strong>
+  <%= @classroom.rating_noise %>
+</p>
+
+<p>
+  <strong>Rating disponibility:</strong>
+  <%= @classroom.rating_disponibility %>
+</p>
+
+<p>
+  <strong>Rating sockets:</strong>
+  <%= @classroom.rating_sockets %>
+</p>
+
+<%= link_to 'Edit', edit_classroom_path(@classroom) %> |
+<%= link_to 'Back', classrooms_path %>
