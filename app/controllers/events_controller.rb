@@ -1,5 +1,5 @@
 class EventsController < ApplicationController
-  before_action :set_event, only: [:show, :edit, :update, :destroy]
+  before_action :set_event, only: [:show, :edit, :update, :destroy, :suscribe, :desuscribe]
 
   # GET /events
   # GET /events.json
@@ -28,7 +28,8 @@ class EventsController < ApplicationController
 
     respond_to do |format|
       if @event.save
-        format.html { redirect_to @event, notice: 'Event was successfully created.' }
+        format.html { redirect_to @event, notice: 'Event was successfully created.', :day => event_params[:day],
+                                                              :course => event_params[:course_id]}
         format.json { render :show, status: :created, location: @event }
       else
         format.html { render :new }
@@ -60,6 +61,17 @@ class EventsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  def suscribe
+    Eventsubsription.create(user_id: params[:user_id], event_id: params[:id])
+    redirect_to @event, {:day => params[:day], :course => params[:course]}
+  end
+
+  def desuscribe
+    Eventsubsription.where(user_id: params[:user_id], event_id: params[:id]).destroy_all
+    redirect_to @event, {:day => params[:day], :course => params[:course]}
+  end
+
 
   private
     # Use callbacks to share common setup or constraints between actions.

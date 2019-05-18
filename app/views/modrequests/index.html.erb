@@ -1,0 +1,71 @@
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<div class= "h1">
+ <center><h1>Solicitudes de Moderador</h1></center>
+</div>
+
+<% if current_user %>
+
+<div class="container">
+    <div class="row col-md-6 col-md-offset-2 custyle">
+    <table class="table table-striped custab">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>User</th>
+            <th>Curso</th>
+            <th class="text-center">Action</th>
+            <th class="text-center">Action</th>
+
+        </tr>
+    </thead>
+            
+            <% @modrequests.each do |mr| %>
+            <tr>
+                <% @course = Course.find(mr.course_id) %>
+                <%if ((current_user.has_role? :mod, @course) || (current_user.has_role? :admin ))%>
+                <td><%= mr.id%></td>
+                <td><%= User.find(mr.user_id).username%></td>
+                <td><%= @course.name %></td>
+                <td class = "text-center">
+                <a class= "btn btn-info btn-xs"><%= link_to "Aceptar", {:controller => "modrequests",
+                                                                    :action => "accept",
+                                                                    :modrequest_id => mr,
+                                                                    :user_id => mr.user_id,
+                                                                    :course_id => mr.course_id,
+                                                                    :id => mr, 
+                                                                    :method => :patch
+                                                                    }, :class => 'btn',
+                                                                    data: {confirm: "Are you sure?"}
+                                                                    %>
+                </td>
+                <td class = "text-center">
+                    <a class= "btn btn-warning btn-xs"><%= link_to "Rechazar", {:controller => "modrequests",
+                                                                        :action => "reject",
+                                                                        :modrequest_id => mr,
+                                                                        :user_id => mr.user_id,
+                                                                        :course_id => mr.course_id,
+                                                                        :id => mr, 
+                                                                        :method => :delete
+                                                                        }, :class => 'btn',
+                                                                        data: {confirm: "Are you sure?"}
+
+                                                                        %></td>
+            
+
+
+                <%end%>
+            </tr>
+            <%end%>
+
+    </table>
+    </div>
+    
+</div>
+<%else%>
+<div class="errorcustom"> ERROR: Solo los moderadores pueden administrar solicitudes </div>
+
+<%end%>

@@ -1,0 +1,88 @@
+<!-- Estas líneas se deben borrar luego, son solo hasta que exista current_user y la implementación devise -->
+
+
+
+<!-- -----------------------------------------------------------------------------------  -->
+<% connected = current_user %>
+<% if connected %><% isadmin = (current_user.has_role? :admin) %><% end %>
+
+<% if !(connected) %>
+  <div class="errorcustom"> ERROR: Debes estar conectado a tu cuenta para postear </div>
+<% elsif (!(Suscription.exists?(:user_id => current_user.id, :course_id => params[:course_id])) && !isadmin) %>
+  <div class="errorcustom"> ERROR: Debes estar registrado en el curso para poder publicar </div>
+<% else %>
+
+  <%= form_with(model: eventpost, local: true) do |form| %>
+    <% if eventpost.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(eventpost.errors.count, "error") %> prohibited this eventpost from being saved:</h2>
+
+        <ul>
+        <% eventpost.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="field">
+      <%= form.label "Usuario" %>
+      <!-- Este es solo para que se vea bonito, realmente no hace nada-->
+      <%= form.text_field :placeholder2,
+                          id: :eventpost_user_id,
+                          value: current_user.username,
+                          disabled: true %>
+      <!-- --------------------------------------------------------- -->
+      <%= form.hidden_field :user_id,
+                            :value => current_user.id %>
+    </div>
+
+    <div class="field">
+
+      <%= form.label "Nombre del evento" %>
+      <!-- Este es solo para que se vea bonito, realmente no hace nada-->
+      <%= form.text_field :placeholder,
+                          id: :eventpost_event_id,
+                          disabled: true,
+                          value: @eventname %>
+      <!-- --------------------------------------------------------- -->
+
+      <%= form.hidden_field :event_id,
+                            :value => @eventid %>
+    </div>
+
+    <div class="field">
+      <%= form.label "Título de la publicación" %>
+      <%= form.text_field :title, id: :eventpost_title %>
+    </div>
+
+    <div class="field">
+      <%= form.label "Contenido" %>
+
+      <%= form.cktext_area :content,
+                           id: :eventpost_content,
+                           rows: 30,
+                           label: "Contenido del post"%>
+    </div>
+
+
+
+    <div class="field">
+      <%= form.label "Calificación" %>
+      <!-- Este es solo para que se vea bonito, realmente no hace nada-->
+      <%= form.text_field :placeholder3,
+                          id: :eventpost_rate,
+                          value: 0.0,
+                          disabled: true %>
+      <!-- --------------------------------------------------------- -->
+      <%= form.hidden_field :rate,
+                            :value => 0 %>
+    </div>
+
+    <div class="actions">
+      <%= form.submit %>
+    </div>
+  <% end %>
+
+
+<% end %>

@@ -18,6 +18,11 @@ class ClassroomsController < ApplicationController
     @classroom = Classroom.new
   end
 
+  # GET /classrooms/schedule
+  def schedule
+    @classrooms = Classroom.find_by(campus_id: params[:course].campus_id)
+  end
+
   # GET /classrooms/1/edit
   def edit
   end

@@ -70,6 +70,10 @@ class CoursesController < ApplicationController
     Suscription.where(user_id: params[:user_id], course_id: params[:id], sbtype: params[:sbtype]).destroy_all
     redirect_to @course
   end
+  def modrequest
+    Modrequest.create(user_id: params[:user_id], course_id: params[:course_id])
+    redirect_to Course.find(params[:course_id])
+  end
 
   private
     # Use callbacks to share common setup or constraints between actions.

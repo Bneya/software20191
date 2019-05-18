@@ -1,15 +1,25 @@
 class PostsController < ApplicationController
-  before_action :set_post, only: [:show, :edit, :update, :destroy]
+  before_action :set_post, only: [:show, :edit, :update, :destroy, :like, :dislike]
 
   # GET /posts
   # GET /posts.json
   def index
-    @posts = Post.all
+    # @posts = Post.all
+    @cursos = Course.all
+
+    @posts = Post.where(nil)
+    @posts = @posts.course_id(params[:course_id]) if (params[:course_id].present? && params[:course_id] != '0')
+    # @posts = @posts.contains(params[:contains]) if params[:contains].present?
+    @posts = @posts.where('title like ?', '%' + params[:intitle] + '%') if params[:intitle].present?
+    @posts = @posts.where('content like ?', '%' + params[:incontent] + '%') if params[:incontent].present?
+    @posts = @posts.order(cached_votes_up: :desc)
+    # @posts = Post.filter(params.slice(:course_id))
   end
 
   # GET /posts/1
   # GET /posts/1.json
   def show
+    @postcomment = Postcomment.new
   end
 
   # GET /posts/new
@@ -60,6 +70,18 @@ class PostsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  # Cosas de los votos
+  def like
+    @post.liked_by current_user
+    redirect_to @post
+  end
+
+  def dislike
+    @post.disliked_by current_user
+    redirect_to @post
+  end
+
 
   private
     # Use callbacks to share common setup or constraints between actions.

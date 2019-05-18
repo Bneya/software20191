@@ -29,6 +29,12 @@
   <strong>Rating sockets:</strong>
   <%= @classroom.rating_sockets %>
 </p>
-
 <%= link_to 'Edit', edit_classroom_path(@classroom) %> |
-<%= link_to 'Back', classrooms_path %>
+<% if params.key?("campus") %>
+  <%= link_to "Regresar a Horarios", {:controller => "pages",
+                                    :action => "schedule",
+                                    :day => params[:day],
+                                    :campus => params[:campus]} %>
+<% else %>
+  <%= link_to 'Back', classrooms_path %>
+<% end %>

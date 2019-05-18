@@ -1,5 +1,9 @@
 <h1>Crear nuevo post para el curso</h1>
 
+<% @courseid = params[:course_id] %>
+<% @coursename = Course.find(params[:course_id]).name %>
+<% @isnewpost = true %>
+
 <%= render 'form', post: @post %>
 
 <%= link_to 'Volver a la lista de cursos', courses_path %>

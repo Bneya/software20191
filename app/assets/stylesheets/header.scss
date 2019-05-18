@@ -1,0 +1,29 @@
+
+
+.header {
+  background-color: #343a40!important;
+  color: white !important;
+  height: 50px;
+}
+
+.header .title {
+  margin-left: 20px;
+  font-size: 30px;
+}
+
+.header a {
+  color: white !important;
+  text-decoration: none;
+}
+
+.header a:visited {
+  color: white !important;
+  background-color: #343a40!important;
+}
+
+body {
+  padding-top: 50px;
+  min-height: 400px;
+  margin-bottom: 100px;
+  clear: both;
+}

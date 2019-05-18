@@ -1,5 +1,10 @@
 <h1>Editing Post</h1>
 
+
+<% @courseid = @post.course_id %>
+<% @coursename = Course.find(@post.course_id).name %>
+<% @isnewcpost = false %>
+
 <%= render 'form', post: @post %>
 
 <%= link_to 'Ver información del curso', @post %> |

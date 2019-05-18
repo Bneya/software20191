@@ -1,29 +1,210 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>User:</strong>
-  <%= @post.user_id %>
-</p>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <title>Bootply snippet - Forum posts</title>
+    <meta name="generator" content="Bootply" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="Forum posts template with bootstrap 3.2" />
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
 
-<p>
-  <strong>Course:</strong>
-  <%= @post.course_id %>
-</p>
+    <!--[if lt IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link rel="apple-touch-icon" href="/bootstrap/img/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/bootstrap/img/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/bootstrap/img/apple-touch-icon-114x114.png">
 
-<p>
-  <strong>Content:</strong>
-  <%= @post.content.html_safe %>
-</p>
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" type="text/css" rel="stylesheet">
 
-<p>
-  <strong>Title:</strong>
-  <%= @post.title %>
-</p>
+    <% @postuser = @post.user %>
+  </head>
 
-<p>
-  <strong>Rate:</strong>
-  <%= @post.rate %>
-</p>
+  <!-- HTML code from Bootply.com editor -->
 
-<%= link_to 'Edit', edit_post_path(@post) %> |
-<%= link_to 'Back', posts_path %>
+  <body >
+
+    <section class="container">
+
+  <section class="row clearfix">
+      <section class="col-md-12 column">
+          <div class="row clearfix">
+              <div class="col-md-12 column">
+                  <div class="panel panel-default">
+                      <div class="panel-heading">
+                          <section class="panel-title">
+
+                              <time class="pull-right">
+                                <i class="fa fa-calendar"></i> <%= @post.created_at.strftime("%d-%m-%Y") %> ,
+                                <i class="fa fa-clock-o"></i> <%= @post.created_at.strftime("%H:%M") %>
+
+                              </time>
+                              <div class="pull-right span-right">
+                                <%= button_to '', {:controller => "posts",
+                                                   :action => "like",
+                                                   :id => @post.id,
+                                                   :method => :post},
+                                                   {class: 'votes-btn like-btn'} %>
+                                <%= button_to '', {:controller => "posts",
+                                                   :action => "dislike",
+                                                   :id => @post.id,
+                                                   :method => :post},
+                                                   {class: 'votes-btn dislike-btn'} %>
+                                <i class="fa fa-thumbs-up like-label"></i> <%= @post.get_likes.size %>
+                                <i class="fa fa-thumbs-down dislike-label"></i> <%= @post.get_dislikes.size %>
+                              </div>
+                              <section class="pull-left badge badge-pill badge-danger red" id="id">#<%= @post.id %> - <%= @post.course.name %></section>
+                          </section>
+                      </div>
+                      <section class="row panel-body">
+                          <section class="col-md-9 justified">
+                               <h2> <i class="fa fa-smile-o"></i> <%= @post.title %></h2>
+
+                              <hr>
+                              <%= @post.content.html_safe %> </section>
+
+
+
+                            <% connected = current_user %>
+                            <% if connected %><% isadmin = (current_user.has_role? :admin) %><% end %>
+                            <% if connected %><% ismod = (current_user.has_role? :mod, Course.find(@post.course_id)) %><% end %>
+
+
+
+
+                          <section id="user-description" class="col-md-3 ">
+                              <section class="well">
+                                  <a href="/users/<%= @post.user.id %>"><%= @post.user.username %></a>
+                                  <figure>
+                                      <img class="img-rounded img-responsive" src="<%= @post.user.gravatar_url(:default => "wavatar", :size=>120) %>"
+                                      alt="Mohammad Sharifi's avatar">
+
+                                  </figure>
+                                  <dl class="dl-horizontal">
+                                    <dt>Joined:</dt><dd><%= @postuser.created_at.strftime("%d of %B %Y") %></dd>
+                                    <% @postusercount = @postuser.posts.count%>
+                                    <dt>Posts:</dt><dd><%= @postusercount %></dd>
+                                    <dt>Score:</dt><dd><%= @postuser.posts.sum(:cached_votes_score) %> puntos en <%= @postusercount %> posts</dd>
+                                  </dl>
+                              </section>
+                          </section>
+                      </section>
+                      <div class="panel-footer">
+                          <div class="row">
+
+
+                              <section class="col-md-12 pull-right">
+                                <span class="fa-stack"></span>
+                                <i class="fa fa-mail-reply "></i><a href="/posts"> Volver a la lista de publicaciones </a> |
+                                <i class="fa fa-mail-reply "></i><a href=<%= course_path(@post.course.id) %> > Volver al muro del curso </a> |
+                                <% if connected && current_user.id == @post.user_id %>
+
+                                  <i class="fa fa-edit "></i><a href= <%= edit_post_path(@post) %>> Editar publicación </a>
+
+                                <% end %>
+
+                                <% if connected && (isadmin || ismod) %>
+                                  <%= link_to 'Eliminar publicación', @post, method: :delete, data: { confirm: '¿Seguro que quieres borrar la publicación?' } %>
+                                <% end %>
+
+                              </section>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </section>
+  </section>
+</section>
+
+  </body>
+</html>
+
+
+<!-- comments container -->
+		<div class="comment_block">
+      <h2>Comentarios de la publicación:</h2>
+
+		 <!-- used by #{user} to create a new comment -->
+		 <div class="create_new_comment">
+
+			<!-- current #{user} avatar -->
+		 	<div class="user_avatar">
+		 		<img src=<%= current_user.gravatar_url(:default => "wavatar", :size=>120) %> >
+		 	</div><!-- the input field --><div class="input_comment">
+        <% connected = current_user %>
+        <% if connected %><% isadmin = (current_user.has_role? :admin) %><% end %>
+
+        <% if connected %>
+          <% @postcomment = Postcomment.new %>
+          <%= render 'postcommentform', postcomment: @postcomment %>
+        <% else %>
+          Necesitas estar conectado para poder comentar las publicaciones
+        <% end %>
+		 	</div>
+
+		 </div>
+
+		 <!-- TODOS LOS COMENTARIOS new comment -->
+     <% @post.postcomments.order(created_at: :desc).each do |comm| %>
+		 <div class="new_comment">
+
+			<!-- build comment -->
+		 	<ul class="user_comment">
+
+		 		<!-- current #{user} avatar -->
+			 	<div class="user_avatar">
+			 		<img src="<%= comm.user.gravatar_url(:default => "wavatar", :size=>120) %>">
+			 	</div><!-- the comment body --><div class="comment_body">
+			 		<p><%= comm.content %></p>
+			 	</div>
+
+			 	<!-- comments toolbar -->
+			 	<div class="comment_toolbar">
+
+			 		<!-- inc. date and time -->
+			 		<div class="comment_details">
+			 			<ul>
+
+			 				<li><i class="fa fa-clock-o"></i> <%= comm.created_at.strftime("%H:%M") %></li>
+			 				<li><i class="fa fa-calendar"></i> <%= comm.created_at.strftime("%d-%m-%Y") %></li>
+			 				<li><i class="fa fa-user"></i> <span class="user"><a href="/users/<%= comm.user.id %>"><%= comm.user.username %></a></span></li>
+			 			</ul>
+			 		</div><!-- inc. share/reply and love --><div class="comment_tools">
+			 			<ul>
+			 				<li><i class="fa fa-thumbs-up like-label"></i> <%= comm.get_likes.size %></li>
+              <li><i class="fa fa-thumbs-down dislike-label"></i> <%= comm.get_dislikes.size %></li>
+              <%= button_to "LIKE", {:controller => "postcomments",
+                                                     :action => "like",
+                                                     :postcommentid => comm.id,
+                                                     :post_id => @post.id,
+                                                     :method => :post},
+                                {class: 'votes-btn like-btn'} %>
+              <%= button_to comm.get_dislikes.size, {:controller => "postcomments",
+                                                     :action => "dislike",
+                                                     :postcommentid => comm.id,
+                                                     :post_id => @post.id,
+                                                     :method => :post},
+                                 {class: 'votes-btn dislike-btn'} %>
+              >
+
+			 			</ul>
+			 		</div>
+          <% if connected && (isadmin || ismod) %>
+            <a href="/postcomments/<%= comm.id %>/?post_id=<%= @post.id %>"
+               data-confirm="¿Estás seguro que quieres borrar este comentario?"
+               data-method="delete">Eliminar comentario</a>
+
+          <% end %>
+			 	</div>
+		 	</ul>
+		 </div>
+     <!-- Final del loop de comentarios-->
+
+     <% end %>
+
+
+		</div>

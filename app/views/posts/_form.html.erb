@@ -4,12 +4,20 @@
 
 <!-- -----------------------------------------------------------------------------------  -->
 <% connected = current_user %>
-<% if connected %><% isadmin = (current_user.has_role? :admin) %><% end %>
+<% if connected %>
+  <% isadmin = (current_user.has_role? :admin) %>
+  <% notsuscribed = !(Suscription.exists?(:user_id => current_user.id, :course_id => @courseid)) %>
+  <% notadmin = !isadmin %>
+  <% notownpost = !(@post.id && current_user.id == @post.user.id)%>
+<% end %>
+
 
 <% if !(connected) %>
   <div class="errorcustom"> ERROR: Debes estar conectado a tu cuenta para postear </div>
-<% elsif !(Suscription.exists?(:user_id => current_user.id, :course_id => params[:course_id])) %>
+<% elsif (notsuscribed && notadmin) %>
   <div class="errorcustom"> ERROR: Debes estar registrado en el curso para poder publicar </div>
+<% elsif (notownpost && !@isnewpost) %>
+  <div class="errorcustom"> ERROR: Solo puedes editar posts que tú hayas hecho </div>
 <% else %>
 
   <%= form_with(model: post, local: true) do |form| %>
@@ -44,11 +52,11 @@
       <%= form.text_field :placeholder,
                           id: :post_course_id,
                           disabled: true,
-                          value: Course.find(params[:course_id]).name %>
+                          value: @coursename %>
       <!-- --------------------------------------------------------- -->
 
       <%= form.hidden_field :course_id,
-                            :value => params[:course_id] %>
+                            :value => @courseid %>
     </div>
 
     <div class="field">
@@ -68,12 +76,7 @@
 
 
     <div class="field">
-      <%= form.label "Calificación" %>
-      <!-- Este es solo para que se vea bonito, realmente no hace nada-->
-      <%= form.text_field :placeholder3,
-                          id: :post_rate,
-                          value: 0.0,
-                          disabled: true %>
+
       <!-- --------------------------------------------------------- -->
       <%= form.hidden_field :rate,
                             :value => 0 %>

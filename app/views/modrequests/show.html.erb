@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>User:</strong>
+  <%= @modrequest.user_id %>
+</p>
+
+<p>
+  <strong>Course:</strong>
+  <%= @modrequest.course_id %>
+</p>
+
+<%= link_to 'Edit', edit_modrequest_path(@modrequest) %> |
+<%= link_to 'Back', modrequests_path %>

@@ -1,54 +1,101 @@
-<p id="notice"><%= notice %></p>
+<!-- Estas líneas se deben borrar luego, son solo hasta que exista current_user y la implementación devise -->
 
-<p>
-  <strong>Title:</strong>
-  <%= @event.title %>
-</p>
 
-<p>
-  <strong>Description:</strong>
-  <%= @event.description %>
-</p>
+<!-- -----------------------------------------------------------------------------------  -->
+<% connected = current_user %>
+<% if connected %><% isadmin = (current_user.has_role? :admin) %><% end %>
 
-<p>
-  <strong>Classroom:</strong>
-  <%= @event.classroom_id %>
-</p>
+<body class="event-show-body">
+  <div class="block">
+    <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Course:</strong>
-  <%= @event.course_id %>
-</p>
+    <div class="event-name"> <%= @event.title.upcase %> </div>
 
-<p>
-  <strong>Schedule:</strong>
-  <%= @event.schedule %>
-</p>
+    <div class="link center falsebutton"> <%= link_to "Regresar a Horarios", {:controller => "pages",
+                                                                                :action => "schedule",
+                                                                                :day => @event.day,
+                                                                                :campus => Course.find(@event.course_id).campus_id} %> </div>
 
-<p>
-  <strong>Day:</strong>
-  <%= @event.day %>
-</p>
+    <div class="subtitle"> Sala: </div>
+    <div class="text"> <%= @event.classroom_id %> </div> <br>
 
-<p>
-  <strong>Event type:</strong>
-  <%= @event.event_type %>
-</p>
 
-<p>
-  <strong>Actual users:</strong>
-  <%= @event.actual_users %>
-</p>
+    <div class="subtitle"> Descripcion del evento: </div>
+    <div class="text"> <%= @event.description.capitalize %> </div> <br>
 
-<p>
-  <strong>Max users:</strong>
-  <%= @event.max_users %>
-</p>
+    <% if connected && isadmin %>
+      <div class="subtitle"> Herramientas de edición para administradores: </div>
+      <%= link_to 'Editar evento', edit_event_path(@event) %>
+      <%= link_to 'Eliminar evento', @event, method: :delete, data: { confirm: 'Are you sure?' } %>
+    <% end%>
 
-<p>
-  <strong>Price:</strong>
-  <%= @event.price %>
-</p>
 
-<%= link_to 'Edit', edit_event_path(@event) %> |
-<%= link_to 'Back', events_path %>
+    <br><br>
+
+    <div class="container">
+      <div class="subtitle center"> Lista de usuarios en el evento: </div>
+      <% Eventsubsription.where(event_id: @event.id).each do |sub| %>
+        <%= User.find(sub.user_id).username %><br>
+      <% end %>
+    </div>
+
+
+
+
+
+
+
+
+    <br><br>
+    <div class="subtitle"> Publicaciones del evento </div>
+
+    <!-- Botón para crear nuevo post -->
+    <div class="link center falsebutton"> <%= link_to 'Crear nueva publicación para el evento', {:controller => "eventposts",
+                                                                                                :action => "new",
+                                                                                                :event_id => @event.id} %> </div>
+
+    <div class="eventposts">
+
+      <% @event.eventposts.each do |post| %>
+
+        <div class="posttitle"> <%= link_to post.id.to_s + "-" + post.title.capitalize, post %> </div>
+
+        <%= strip_tags(post.content)[0..200] + " ..." %>
+
+        <br><br>
+        <strong>Calificación:</strong>
+        <%= post.rate %>
+      </p>
+      <hr>
+      <% end %>
+
+
+    </div>
+
+    <!-- BOTONES -->
+  <!-- Comporbación para ver si está conectado o no -->
+  <% if connected %>
+    <!-- Comprobación para ver si esta suscrito -->
+    <% if (Eventsubsription.exists?(:user_id => current_user.id, :event_id => @event.id)) %>
+      Ya te encuentras suscrito al curso <%= @event.title %> como usuario.
+      <%= button_to 'Quitar suscripción al evento', {:controller => "events",
+                                                    :action => "desuscribe",
+                                                    :id => @event.id,
+                                                    :user_id => current_user.id,
+                                                    :method => :post} %>
+
+    <% else %>
+      Actualmente no te encuentras suscrito al evento <%= @event.title %> como usuario.
+      <%= button_to 'Suscribirse al evento', {:controller => "events",
+                                             :action => "suscribe",
+                                             :id => @event.id,
+                                             :user_id => current_user.id,
+                                             :method => :post} %>
+    <% end %>
+
+  <% else %>
+    Necesitas estar conectado para poder suscribirte a eventos
+  <% end %>
+  </div>
+
+</body>

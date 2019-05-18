@@ -3,49 +3,90 @@
 <% connected = current_user %>
 <% if connected %><% isadmin = (current_user.has_role? :admin) %><% end %>
 
+
 <p id="notice"><%= notice %></p>
 
-<h1>Lista de todos los Posts</h1>
+<h1 class="centeredcont">Todas las publicaciones</h1>
 
-Esta es solo una lista de administración. Para crear un post es necesario ir al muro de ese curso.
-
-<br><br><br>
-
-<% if (connected && isadmin) %>
-
-  <table class="table table-hover">
-    <thead class="thead-dark">
-      <tr>
-        <th>User</th>
-        <th>Course</th>
-        <th>Content</th>
-        <th>Title</th>
-        <th>Rate</th>
-        <th colspan="3"></th>
-      </tr>
-    </thead>
-
-    <tbody>
-      <% @posts.each do |post| %>
-        <tr>
-          <td><%= post.user_id %></td>
-          <td><%= post.course_id %></td>
-          <td><%= strip_tags(post.content)[0..200] + " ..." %></td>
-          <td><%= post.title %></td>
-          <td><%= post.rate %></td>
-          <td><%= link_to 'Show', post %></td>
-          <td><%= link_to 'Edit', edit_post_path(post) %></td>
-          <td><%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-
-<br>
-
-<% else %>
-  <div class="errorcustom"> ERROR: Solo los administradores pueden ver todos los posts </div>
-
-<% end %>
 
 <%= link_to 'Volver a la lista de cursos', courses_path %>
+
+<!-- Barra de búsqueda -->
+<div class="container marginated">
+	<div class="row">
+		<div class="col-md-12">
+            <div class="input-group" id="adv-search">
+                <input type="text" class="form-control" placeholder="Busca una publicación en específico" readonly="true"/>
+                <div class="input-group-btn">
+                    <div class="btn-group" role="group">
+                        <div class="dropdown dropdown-lg">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"></button>
+                            <div class="dropdown-menu dropdown-menu-right" role="menu">
+                                <form class="form-horizontal" role="form" method="get" action="/posts">
+                                  <div class="form-group">
+                                    <label for="filter">Nombre del curso</label>
+                                    <select class="form-control" name="course_id">
+                                        <option value="0" selected>Todos los cursos</option>
+                                        <% @cursos.each do |course| %>
+                                          <option value="<%= course.id %>"><%= course.name %></option>
+                                        <% end %>
+
+                                    </select>
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="contain">Título contiene la siguiente palabra</label>
+                                    <input class="form-control" type="text" name="intitle"/>
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="contain">Publicación contiene las siguiente palabra</label>
+                                    <input class="form-control" type="text" name="incontent"/>
+                                  </div>
+                                  <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>
+	</div>
+</div>
+<!-- Fin de la barra de búsqueda -->
+
+<section class="banner-sec centeredcon">
+  <div class="container">
+		<% @posts.each do |post| %>
+    <div class="row">
+      <div class="col-md-12">
+					<div class="card" onclick="window.location.href= '<%= post_path(post) %>'; ">
+
+	          <div class="card-img-overlay"> <span class="badge badge-pill badge-danger red"><%= post.course.name %></span> </div>
+						<div class="card-body">
+							<div class="pull-right">
+								<i class="fa fa-user"></i> <span class="user"><%= post.user.username %></span>
+							</div>
+	            <div class="news-title">
+	              <h2 class=" title-small"><%= post.title %></h2>
+	            </div>
+							<div class="pull-right">
+								<i class="fa fa-thumbs-up like-label"></i> <%= post.get_likes.size %>
+	              <i class="fa fa-thumbs-down dislike-label"></i> <%= post.get_dislikes.size %>
+
+								<% if connected %><% ismod = (current_user.has_role? :mod, Course.find(post.course_id)) %><% end %>
+								<% if connected && (isadmin || ismod) %>
+									<%= link_to 'Eliminar publicación', post, method: :delete, data: { confirm: '¿Seguro que quieres borrar la publicación?' } %>
+								<% end %>
+
+							</div>
+	            <p class="card-text"><small class="text-time"><em><i class="fa fa-calendar"></i> <%= post.created_at.strftime("%d-%m-%Y")%> |  <i class="fa fa-clock-o"></i><%= post.created_at.strftime("%H:%M") %></em></small></p>
+	          </div>
+
+	        </div>
+
+      </div>
+    </div>
+		<% end %>
+  </div>
+</section>

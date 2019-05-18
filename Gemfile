@@ -29,6 +29,7 @@ gem 'jbuilder', '~> 2.5'
 # gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
+gem 'gravtastic'
 
 
 # Rubocop
@@ -36,6 +37,7 @@ gem 'rubocop'
 
 # Cosas nuevas
 gem "ckeditor"
+gem 'acts_as_votable' # para los likes
 
 
 gem 'bootstrap-sass', '~> 3.4.1'

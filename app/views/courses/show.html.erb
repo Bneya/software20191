@@ -4,6 +4,7 @@
 <!-- -----------------------------------------------------------------------------------  -->
 <% connected = current_user %>
 <% if connected %><% isadmin = (current_user.has_role? :admin) %><% end %>
+<% if connected %><% ismod = (current_user.has_role? :mod, Course.find(@course.id)) %><% end %>
 
 <body class="course-show-body">
   <div class="block">
@@ -26,6 +27,27 @@
       <%= link_to 'Editar curso', edit_course_path(@course) %>
       <%= link_to 'Eliminar curso', @course, method: :delete, data: { confirm: 'Are you sure?' } %>
     <% end%>
+
+    <% if connected && (ismod || isadmin) %>
+      <div class="subtitle"> Herramientas de edición para moderadores: </div>
+      <%= link_to 'Administrar solicitudes de moderador' , modrequests_path %>
+    <% end%>
+
+
+   <% if connected && !ismod %>
+   <div class="subtitle"> Solicitar ser moderador </div>
+   <%= button_to 'Generar solicitud' , 
+   {
+     :controller => "courses",
+     :action => "modrequest",
+     :id => @course.id,
+     :user_id => current_user.id,
+     :course_id => @course.id,
+     :method => :post}
+   %>
+   <% end%>
+
+
 
 
     <br><br>
@@ -56,6 +78,15 @@
 
 
 
+    <br><br>
+    <div class="subtitle"> Eventos del curso </div>
+
+    <!-- Botón para ver salas del curso -->
+    <div class="link center falsebutton"> <%= link_to 'Ver salas y eventos disponibles', {:controller => "pages",
+                                                                                                :action => "schedule",
+                                                                                                :campus => @course.campus_id,
+                                                                                                :day => Time.new.yday} %> </div>
+
 
     <br><br>
     <div class="subtitle"> Publicaciones del curso </div>
@@ -73,7 +104,9 @@
 
         <%= strip_tags(post.content)[0..200] + " ..." %>
 
-        <br><br>
+        <% if connected && ismod %>
+          <%= link_to 'Editar post', edit_post_path(post)%>
+            <% end%>
         <strong>Calificación:</strong>
         <%= post.rate %>
       </p>

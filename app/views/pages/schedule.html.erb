@@ -1,0 +1,166 @@
+<% connected = current_user %>
+<% if connected %><% isadmin = (current_user.has_role? :admin) %><% end %>
+
+<% if !(connected) %>
+  <div class="errorcustom"> ERROR: Debes estar conectado a tu cuenta ver los eventos disponibles </div>
+<% else %>
+
+<head>
+    <meta charset="utf-8">
+    <title>Bootswatch: United</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="../4/united/bootstrap.css" media="screen">
+    <link rel="stylesheet" href="../_assets/css/custom.min.css">
+    <script type="text/javascript" async="" src="https://ssl.google-analytics.com/ga.js"></script><script>
+
+     var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-23019901-1']);
+      _gaq.push(['_setDomainName', "bootswatch.com"]);
+        _gaq.push(['_setAllowLinker', true]);
+      _gaq.push(['_trackPageview']);
+
+     (function() {
+       var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+       ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+       var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+      </script>
+    <script id="_carbonads_projs" type="text/javascript" src="https://srv.carbonads.net/ads/CKYIE23N.json?segment=placement:bootswatchcom&amp;callback=_carbonads_go">
+      </script>
+</head>
+
+<body>
+  <h1>Eventos del dia <%= Date.strptime("December 31, 2018", "%B %d, %Y") + params[:day].to_i %></h1>
+
+  <!-- Tabla de eventos por sala -->
+  <table class="table table-hover">
+    <thead class="thead-dark">
+      <tr>
+        <th>Sala</th>
+        <th>[8:30-09:50]</th>
+        <th>[10:00-11:20]</th>
+        <th>[11:30-12:50]</th>
+        <th>[13:00-13:50]</th>
+        <th>[14:00-15:20]</th>
+        <th>[15:30-16:50]</th>
+        <th>[17:00-18:20]</th>
+        <th>[18:30-19:50]</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% Classroom.where(campus_id: params[:campus]).find_each do |classroom| %>
+        <tr>
+          <td>
+            <%= button_to classroom.title, {:controller => "classrooms",
+                                            :action => "show",
+                                            :id => classroom.id,
+                                            :day => params[:day],
+                                            :campus => params[:campus]},
+                                            {:method => :post, class: "btn btn-outline-info"} %>
+
+            </td>
+          <% (1..8).each do |schedule| %>
+            <% if Event.where(day: params[:day], schedule: schedule, classroom_id: classroom.id).exists?(conditions = :none) %>
+              <% event = Event.find_by(day: params[:day], schedule: schedule, classroom_id: classroom.id) %>
+              <td>
+                 <%= link_to event.title, {:controller => "events",
+                                                :action => "show",
+                                                :id => event.id,
+                                                :day => params[:day],
+                                                :campus => params[:campus]},
+                                                {:method => :get,
+                                                 class: "btn btn-danger"} %>
+                </td>
+            <% else %>
+              <td>
+                 <%= button_to "Crear Evento", {:controller => "events",
+                                                :action => "new",
+                                                :day => params[:day],
+                                                :schedule => schedule,
+                                                :classroom => classroom.id,
+                                                :campus => params[:campus]},
+                                                {:method => :post, class: "btn btn-success"} %>
+                </td>
+            <%end%>
+          <%end%>
+        </tr>
+      <% end %>
+      </tbody>
+  </table>
+
+  <!-- Barra de Navegacion -->
+  <div>
+    <ul class="pagination pagination-lg">
+      <% if Time.new.yday == params[:day].to_i %>
+        <li class="page-item disabled">
+          <a class="page-link" href="#">&laquo;</a>
+        </li>
+      <% else %>
+        <li class="page-item">
+          <%= button_to "«", {:controller => "pages",
+                                  :action => "schedule",
+                                  :campus => params[:campus],
+                                  :day => params[:day].to_i - 1},
+                                  {class: "page-link"} %>
+        </li>
+      <% end %>
+      <% if params[:day].to_i - Time.new.yday <= 3 %>
+        <% (1..9).each do |pag_n| %>
+          <% if params[:day].to_i - Time.new.yday == pag_n - 1  %>
+            <li class="page-item active">
+              <%= button_to pag_n, {:controller => "pages",
+                                  :action => "schedule",
+                                  :campus => params[:campus],
+                                  :day => Time.new.yday + pag_n - 1},
+                                  {:class => "page-link"} %>
+            </li>
+          <% else %>
+            <li class="page-item">
+              <%= button_to pag_n, {:controller => "pages",
+                                  :action => "schedule",
+                                  :campus => params[:campus],
+                                  :day => Time.new.yday + pag_n - 1},
+                                  {:class => "page-link"} %>
+            </li>
+          <% end %>
+        <% end %>
+      <% else %>
+        <% pag_ini = params[:day].to_i - Time.new.yday + 1 %>
+        <% (pag_ini - 4..pag_ini + 4).each do |pag_n| %>
+          <% if params[:day].to_i - Time.new.yday == pag_n - 1  %>
+            <li class="page-item active">
+              <%= button_to pag_n, {:controller => "pages",
+                                  :action => "schedule",
+                                  :campus => params[:campus],
+                                  :day => Time.new.yday + pag_n - 1},
+                                  {:class => "page-link"} %>
+            </li>
+          <% else %>
+          <li class="page-item">
+            <%= button_to pag_n, {:controller => "pages",
+                                :action => "schedule",
+                                :campus => params[:campus],
+                                :day => Time.new.yday + pag_n - 1},
+                                {:class => "page-link"} %>
+          </li>
+          <% end %>
+        <% end %>
+      <% end %>
+      <li class="page-item">
+        <%= button_to "»", {:controller => "pages",
+                            :action => "schedule",
+                            :campus => params[:campus],
+                            :day => params[:day].to_i + 1},
+                            {:class => "page-link"} %>
+      </li>
+    </ul>
+  </div>
+
+
+
+</body>
+
+<%end%>

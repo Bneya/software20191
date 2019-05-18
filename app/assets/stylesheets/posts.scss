@@ -1,3 +1,89 @@
 // Place all the styles related to the Posts controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+/* CSS used here will be applied after bootstrap.css */
+.fa-heart{
+  color:#e74c3c;
+}
+  [class^="fa fa-star"]{
+    color:#f1c40f;
+  }
+.fa-quote-right{
+  font-size:.5em;
+  }
+section.panel-title{
+    padding:15px;
+    padding-top:0;
+  }
+  #user-description{
+    height:100%;
+   border-left:2px solid #444;
+    margin:0 auto;
+    text-align:center;
+  }
+ figure img{
+    display :inline !important;
+  }
+  h4.online:before{
+     background-color:green;
+      height:10px;
+      width:10px;
+      border: 2px solid #11f464;
+    }
+dt{
+   text-align:left !important;
+     width:37% !important;
+    }
+    dd{
+     margin-left:2% !important;
+    }
+
+.panel-footer {
+    width:100%;
+  	min-height:40px;
+  }
+
+  .span-right {
+    margin-right: 10px;
+  }
+
+.votes-btn {
+  background-position: left;
+  text-align: right;
+  background-repeat: no-repeat;
+  width: 25px;
+  border-radius: 5px;
+  padding-left: 5px;
+  background-origin: content-box;
+  -webkit-appearance: none !important;
+}
+
+.like-btn {
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAANhJREFUeNpi/P//PwMlgBFkQHCgB15F6uqKMUBqMRA73Lx5/yBIbO36HWA5JkI2ADUrAampUC6GTUwENHMCqWVAzIdLDRMezeZA6hwQmyMJ78JqAFAxExArQtkcQNwKZB4BYg0ktWeA+BNIHpsLVgHxPSj7DhBXATELmmUmUENuAw3JRDcgAEmhNIFwlQHiaegGMJMY/R+IigU8YA2lBixBN+AHCZofA/FhdAM6gPgNkQYsAybnfygGAAUagVgUymaExkQcEM8D4vtoBizFyEwU50ZKAECAAQAmQzq+KkovGQAAAABJRU5ErkJggg==);
+}
+
+.dislike-btn {
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAOBJREFUeNpi/P//PwMlgAVEBAd6MKirK+oCmZeQ5O4D8X4gPgDEe2/evP8MWePa9TvANBOSWDSa4YpAnATEi4D4KdACsFOB9GsgrocpYoIKgugoIl0tAsQVKAYAgS0Qy5LgdQ50A2LIDUSYASGUGiBAor6/6AZkAfETApqeIrE3oBgAjOPpQEoViE2A+Ayaxj9A3AbEKlC+EhCHoSQkqCE/gNHJBzUEBm4AcQJQ7iSSuvsYKREJuCGxQZocgRq+ExOI6OATKGER0ozNgB1QOhuo+R4x0cFIaW5kYqAQAAQYANsvPnjUzDQHAAAAAElFTkSuQmCC);
+
+}
+
+.button_to {
+  display: inline;
+}
+
+section img {
+  max-width: 100%;
+}
+
+.post-comments {
+  border: 1px solid gray;
+  width: 60%;
+  margin-left: 5%;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.justified {
+  text-align: justify;
+}
