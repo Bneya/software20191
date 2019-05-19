@@ -31,14 +31,8 @@
                           :value => params[:classroom] %>
 
     <div class="field">
-      <div class="form-group">
-        <label for="filter"> Curso del evento </label>
-        <select class="form-control" name="course_id">
-          <% Course.all.each do |course| %>
-            <option value= "<%= course.id %>"> <%= course.name %> </option>
-          <% end %>
-        </select>
-      </div>
+      <%= form.label "Id del curso" %>
+      <%= form.number_field :course_id, id: :event_course_id %>
     </div>
 
     <%= form.hidden_field :schedule,
