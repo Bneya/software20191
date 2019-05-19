@@ -59,7 +59,7 @@
                               <section class="pull-left badge badge-pill badge-danger red" id="id">#<%= @post.id %> - <%= @post.course.name %></section>
                           </section>
                       </div>
-                      <section class="row panel-body">
+                      <section class="row panel-body fullwidth">
                           <section class="col-md-9 justified">
                                <h2> <i class="fa fa-smile-o"></i> <%= @post.title %></h2>
 
@@ -132,13 +132,14 @@
 		 <div class="create_new_comment">
 
 			<!-- current #{user} avatar -->
+      <% connected = current_user %>
+      <% if connected %><% isadmin = (current_user.has_role? :admin) %><% end %>
+
+      <% if connected %>
 		 	<div class="user_avatar">
 		 		<img src=<%= current_user.gravatar_url(:default => "wavatar", :size=>120) %> >
 		 	</div><!-- the input field --><div class="input_comment">
-        <% connected = current_user %>
-        <% if connected %><% isadmin = (current_user.has_role? :admin) %><% end %>
 
-        <% if connected %>
           <% @postcomment = Postcomment.new %>
           <%= render 'postcommentform', postcomment: @postcomment %>
         <% else %>
