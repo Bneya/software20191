@@ -43,16 +43,16 @@
 
                               </time>
                               <div class="pull-right span-right">
-                                <%= button_to '', {:controller => "posts",
+                                <%= button_to '👍', {:controller => "posts",
                                                    :action => "like",
                                                    :id => @post.id,
                                                    :method => :post},
-                                                   {class: 'votes-btn like-btn'} %>
-                                <%= button_to '', {:controller => "posts",
+                                                   {class: 'btn'} %>
+                                <%= button_to '👎', {:controller => "posts",
                                                    :action => "dislike",
                                                    :id => @post.id,
                                                    :method => :post},
-                                                   {class: 'votes-btn dislike-btn'} %>
+                                                   {class: 'btn'} %>
                                 <%= link_to 'Guardar Post', {:controller => 'saved_posts',
                                 :action => 'create_new',
                                 :post_id =>  @post.id,
@@ -184,18 +184,18 @@
 			 			<ul>
 			 				<li><i class="fa fa-thumbs-up like-label"></i> <%= comm.get_likes.size %></li>
               <li><i class="fa fa-thumbs-down dislike-label"></i> <%= comm.get_dislikes.size %></li>
-              <%= button_to "LIKE", {:controller => "postcomments",
+              <%= button_to "👍", {:controller => "postcomments",
                                                      :action => "like",
                                                      :postcommentid => comm.id,
                                                      :post_id => @post.id,
                                                      :method => :post},
-                                {class: 'votes-btn like-btn'} %>
-              <%= button_to comm.get_dislikes.size, {:controller => "postcomments",
+                                {class: 'btn'} %>
+              <%= button_to "👎", {:controller => "postcomments",
                                                      :action => "dislike",
                                                      :postcommentid => comm.id,
                                                      :post_id => @post.id,
                                                      :method => :post},
-                                 {class: 'votes-btn dislike-btn'} %>
+                                 {class: 'btn'} %>
               >
 
 			 			</ul>

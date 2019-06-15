@@ -263,6 +263,23 @@
                       <% end %>
 
                       </div>
+
+                      <div class="row">
+                        <div class="col-12">
+                          <% if connected && !ismod %>
+                        <div class="subtitle"> Solicitar ser moderador </div>
+                        <%= button_to 'Generar solicitud' ,
+                                      {
+                                          :controller => "courses",
+                                          :action => "modrequest",
+                                          :id => @course.id,
+                                          :user_id => current_user.id,
+                                          :course_id => @course.id,
+                                          :method => :post}
+                        %>
+                      <% end%>
+                        </div>
+                      </div>
                     </center>
                 </div>
 

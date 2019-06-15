@@ -324,18 +324,18 @@
                           <ul>
                             <li><i class="fa fa-thumbs-up like-label"></i> <%= comm.get_likes.size %></li>
                             <li><i class="fa fa-thumbs-down dislike-label"></i> <%= comm.get_dislikes.size %></li>
-                            <%= button_to "LIKE", {:controller => "classroomcomments",
+                            <%= button_to "👍", {:controller => "classroomcomments",
                                                                    :action => "like",
                                                                    :classroomcommentid => comm.id,
                                                                    :classroom_id => @classroom.id,
                                                                    :method => :post},
-                                              {class: 'votes-btn like-btn'} %>
-                            <%= button_to comm.get_dislikes.size, {:controller => "classroomcomments",
+                                              {class: 'btn'} %>
+                            <%= button_to "👎", {:controller => "classroomcomments",
                                                                    :action => "dislike",
                                                                    :classroomcommentid => comm.id,
                                                                    :classroom_id => @classroom.id,
                                                                    :method => :post},
-                                               {class: 'votes-btn dislike-btn'} %>
+                                               {class: 'btn-primary'} %>
                             >
 
                           </ul>
@@ -369,16 +369,16 @@
                 <div class="col-md-6">
                   <ul>
                     <li style="list-style: none;">
-                      <%= button_to "", {:controller => "classrooms",
+                      <%= button_to "👍", {:controller => "classrooms",
                                                            :action => "like_noise",
                                                            :id => @classroom.id,
                                                            :method => :post},
-                                      {class: 'votes-btn like-btn'} %>
-                      <%= button_to "", {:controller => "classrooms",
+                                      {class: 'btn'} %>
+                      <%= button_to "👎", {:controller => "classrooms",
                                                              :action => "dislike_noise",
                                                              :id => @classroom.id,
                                                              :method => :post},
-                                         {class: 'votes-btn dislike-btn'} %>
+                                         {class: 'btn'} %>
                     </li>
                   </ul>
                 </div>
@@ -391,16 +391,16 @@
                 <div class="col-md-6">
                   <ul>
                     <li style="list-style: none;">
-                      <%= button_to "", {:controller => "classrooms",
+                      <%= button_to "👍", {:controller => "classrooms",
                                                              :action => "like_disponibility",
                                                              :id => @classroom.id,
                                                              :method => :post},
-                                        {class: 'votes-btn like-btn'} %>
-                      <%= button_to "", {:controller => "classrooms",
+                                        {class: 'btn'} %>
+                      <%= button_to "👎", {:controller => "classrooms",
                                                              :action => "dislike_disponibility",
                                                              :id => @classroom.id,
                                                              :method => :post},
-                                         {class: 'votes-btn dislike-btn'} %>
+                                         {class: 'btn'} %>
                     </li>
                   </ul>
                 </div>
@@ -413,16 +413,16 @@
                 <div class="col-md-6">
                   <ul>
                     <li style="list-style: none;">
-                      <%= button_to "", {:controller => "classrooms",
+                      <%= button_to "👍", {:controller => "classrooms",
                                                              :action => "like_sockets",
                                                              :id => @classroom.id,
                                                              :method => :post},
-                                        {class: 'votes-btn like-btn'} %>
-                      <%= button_to "", {:controller => "classrooms",
+                                        {class: 'btn'} %>
+                      <%= button_to "👎", {:controller => "classrooms",
                                                              :action => "dislike_sockets",
                                                              :id => @classroom.id,
                                                              :method => :post},
-                                         {class: 'votes-btn dislike-btn'} %>
+                                         {class: 'btn'} %>
                     </li>
                   </ul>
                 </div>

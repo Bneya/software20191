@@ -42,8 +42,8 @@
 
                               </time>
                               <div class="pull-right span-right">
-                                <%= button_to '', eventposts_like_path(id: @eventpost.id), class: 'votes-btn like-btn' %>
-                                <%= button_to '', eventposts_dislike_path(id: @eventpost.id), class: 'votes-btn dislike-btn' %>
+                                <%= button_to '👍', eventposts_like_path(id: @eventpost.id), class: 'btn' %>
+                                <%= button_to '👎', eventposts_dislike_path(id: @eventpost.id), class: 'btn' %>
                                 <i class="fa fa-thumbs-up like-label"></i> <%= @eventpost.get_likes.size %>
                                 <i class="fa fa-thumbs-down dislike-label"></i> <%= @eventpost.get_dislikes.size %>
                               </div>
@@ -154,18 +154,18 @@
 			 			<ul>
 			 				<li><i class="fa fa-thumbs-up like-label"></i> <%= comm.get_likes.size %></li>
               <li><i class="fa fa-thumbs-down dislike-label"></i> <%= comm.get_dislikes.size %></li>
-              <%= button_to "LIKE", {:controller => "eventpostcomments",
+              <%= button_to "👍", {:controller => "eventpostcomments",
                                                      :action => "like",
                                                      :eventpostcommentid => comm.id,
                                                      :eventpost_id => @eventpost.id,
                                                      :method => :post},
-                                {class: 'votes-btn like-btn'} %>
-              <%= button_to comm.get_dislikes.size, {:controller => "eventpostcomments",
+                                {class: 'btn'} %>
+              <%= button_to "👎", {:controller => "eventpostcomments",
                                                      :action => "dislike",
                                                      :eventpostcommentid => comm.id,
                                                      :eventpost_id => @eventpost.id,
                                                      :method => :post},
-                                 {class: 'votes-btn dislike-btn'} %>
+                                 {class: 'btn'} %>
               >
 
 			 			</ul>
