@@ -34,6 +34,9 @@
                                 <li class="nav-item">
                                         <a class="nav-link" id="events-tab" data-toggle="tab" href="#events" role="tab" aria-controls="events" aria-selected="false">Events</a>
                                     </li>
+                              <li class="nav-item">
+                                <a class="nav-link" id="saved-posts-tab" data-toggle="tab" href="#saved_posts" role="tab" aria-controls="saved" aria-selected="false">Saved Posts</a>
+                              </li>
                             </ul>
                         </div>
                     </div>
@@ -111,19 +114,33 @@
                                     </p>
                             </div>
                             <div class="tab-pane fade" id="events" role="tabpanel" aria-labelledby="events-tab">
-                                    <%Suscription.where(user_id: @user.id).distinct.pluck(:course_id).each do |course| %>
+                              <% Eventsubsription.where(user_id: @user.id).distinct.pluck(:event_id).each do |event| %>
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <label><%=Course.find(course).name%></label>
+                                          <label><%= Event.find(event).name %></label>
                                         </div>
                                         <div class="col-md-6">
-                                            <%= link_to "Visitar muro del curso!!!", courses_path(course) %>
+                                          <%= link_to "Visitar muro del evento", event_path(event) %>
                                         </div>
                                         
                                     </div>
                                     <% end %>
                                     </p>
                             </div>
+                          <div class="tab-pane fade" id="savedposts" role="tabpanel" aria-labelledby="saved-posts-tab">
+                            <%SavedPost.where(user_id: @user.id).distinct.pluck(:post_id).each do |post| %>
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <label><%=Post.find(post).name%></label>
+                                </div>
+                                <div class="col-md-6">
+                                  <%= link_to "Visitar post", posts_path(post) %>
+                                </div>
+
+                              </div>
+                            <% end %>
+                            </p>
+                          </div>
 
                         </div>
                     </div>

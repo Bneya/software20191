@@ -20,7 +20,7 @@
   <div class="errorcustom"> ERROR: Solo puedes editar posts que tú hayas hecho </div>
 <% else %>
 
-  <%= form_with(model: post, local: true) do |form| %>
+  <%= form_with(model: post, local: true, :html=>{:class => "form-style-5"}) do |form| %>
     <% if post.errors.any? %>
       <div id="error_explanation">
         <h2><%= pluralize(post.errors.count, "error") %> prohibited this post from being saved:</h2>
@@ -34,7 +34,7 @@
     <% end %>
 
     <div class="field">
-      <%= form.label "Usuario" %>
+      <legend><span class="number">1</span> Usuario</legend>
       <!-- Este es solo para que se vea bonito, realmente no hace nada-->
       <%= form.text_field :placeholder2,
                           id: :post_user_id,
@@ -47,7 +47,7 @@
 
     <div class="field">
 
-      <%= form.label "Sigla curso" %>
+      <legend><span class="number">2</span> Sigla del curso</legend>
       <!-- Este es solo para que se vea bonito, realmente no hace nada-->
       <%= form.text_field :placeholder,
                           id: :post_course_id,
@@ -60,12 +60,12 @@
     </div>
 
     <div class="field">
-      <%= form.label "Título de la publicación" %>
+      <legend><span class="number">3</span> Título de la publicación</legend>
       <%= form.text_field :title, id: :post_title %>
     </div>
 
     <div class="field">
-      <%= form.label "Contenido" %>
+      <legend><span class="number">4</span> Contenido</legend>
 
       <%= form.cktext_area :content,
                            id: :post_content,
@@ -89,3 +89,6 @@
 
 
 <% end %>
+
+
+</div>

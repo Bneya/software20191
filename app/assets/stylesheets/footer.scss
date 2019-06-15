@@ -4,3 +4,12 @@ footer {
   max-height: 50px;
   vertical-align: middle;
 }
+
+footer, .push {
+  height: 50px;
+}
+
+.wrapper {
+  margin-bottom: -50px;
+  min-height: 100%;
+}

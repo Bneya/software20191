@@ -41,21 +41,26 @@ class ModrequestsController < ApplicationController
   end
 
   def accept
-    puts params
-    @u = User.find(@modrequest.user_id)
-    @u.add_role :mod, Course.find(@modrequest.course_id)
-    redirect_to modrequests_path
+
+    u = User.find(params[:user_id])
+    course = params[:course_id]
+    u.add_role(:mod, Course.find(course))
+    Modrequest.where(course_id: params[:course_id], user_id: params[:user_id]).destroy_all
+    respond_to do |format|
+      format.html {redirect_to modrequests_path, notice: "Mod Request was successfully accepted"}
+      format.json {render :show, status: :ok, location: @course} #redirect_to Course.find(params[:course_id])
+    end
   end
 
   def reject
-    puts 'aaaaaaaaaaaaa'
-    puts params
-    redirect_to modrequests_path
+    Modrequest.where(course_id: params[:course_id], user_id: params[:user_id]).destroy_all
+    respond_to do |format|
+      format.html {redirect_to modrequests_path, notice: "Mod Request was successfully rejected"}
+      format.json {render :show, status: :ok, location: @course} #redirect_to Course.find(params[:course_id])
+    end
 
   end
 
-
-  
   # PATCH/PUT /modrequests/1
   # PATCH/PUT /modrequests/1.json
   def update

@@ -1,28 +1,228 @@
-<p id="notice"><%= notice %></p>
+<!DOCTYPE html>
+<head>
+  <title></title>
+  <meta charset="utf-8"/>
+  <script type='text/javascript'>
+      function GetMap() {
+          var map = new Microsoft.Maps.Map('#myMap', {});
+          map.setView({
+              mapTypeId: Microsoft.Maps.MapTypeId.aerial,
+              center: new Microsoft.Maps.Location(<%= @campus.location_map %>),
+              zoom: 15,
 
-<p>
-  <strong>Name:</strong>
-  <%= @campus.name %>
-</p>
+          });
+      }
+  </script>
+  <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=AiV3nq3V5FZeLRFcIjha7ckayj0DzNNhtLD5wjkgvhVrki4Fa_ZJmptDU0qm5wcp' async defer></script>
+</head>
+<style type="text/css">
+  .emp-profile {
+    padding: 3%;
+    margin-top: 3%;
+    margin-bottom: 3%;
+    border-radius: 0.5rem;
+    background: #fff;
+    align-items: center;
+    align-self: center;
+    align-content: center;
+  }
 
-<p>
-  <strong>Description:</strong>
-  <%= @campus.description %>
-</p>
+  .profile-img {
+    text-align: center;
+  }
 
-<p>
-  <strong>Location map:</strong>
-  <%= @campus.location_map %>
-</p>
+  .profile-img img {
+    width: 70%;
+    height: 100%;
+  }
 
-<p>
-  <strong>Cursos en el campus: </strong>
-  <% Course.where(campus_id: @campus.id).each do |course| %>
-    <%= link_to "Curso %s" [course.name], courses_path(course) %>
-    <% end %>
-  </p>
+  .profile-img .file {
+    position: relative;
+    overflow: hidden;
+    margin-top: -20%;
+    width: 70%;
+    border: none;
+    border-radius: 0;
+    font-size: 15px;
+    background: #212529b8;
+  }
 
-<% if current_user and current_user.has_role? :admin %>
-<%= link_to 'Edit', edit_campus_path(@campus) %> |
-<%end%>
-<%= link_to 'Back', campuses_path %>
+  .profile-img .file input {
+    position: absolute;
+    opacity: 0;
+    right: 0;
+    top: 0;
+  }
+
+  .profile-head h5 {
+    color: #333;
+  }
+
+  .profile-head h6 {
+    color: #0062cc;
+  }
+
+  .profile-edit-btn {
+    border: none;
+    border-radius: 1.5rem;
+    width: 70%;
+    padding: 2%;
+    font-weight: 600;
+    color: #6c757d;
+    cursor: pointer;
+  }
+
+  .profile-rating {
+    font-size: 12px;
+    color: #818182;
+    margin-top: 5%;
+  }
+
+  .proile-rating span {
+    color: #495057;
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  .profile-head .nav-tabs {
+    margin-bottom: 5%;
+  }
+
+  .profile-head .nav-tabs .nav-link {
+    font-weight: 600;
+    border: none;
+  }
+
+  .profile-head .nav-tabs .nav-link.active {
+    border: none;
+    border-bottom: 2px solid #0062cc;
+  }
+
+  .profile-work {
+    padding: 14%;
+    margin-top: -15%;
+  }
+
+  .profile-work p {
+    font-size: 12px;
+    color: #818182;
+    font-weight: 600;
+    margin-top: 10%;
+  }
+
+  .profile-work a {
+    text-decoration: none;
+    color: #495057;
+    font-weight: 600;
+    font-size: 14px;
+  }
+
+  .profile-work ul {
+    list-style: none;
+  }
+
+  .profile-tab label {
+    font-weight: 600;
+  }
+
+  .profile-tab p {
+    font-weight: 400;
+    color: #000000;
+  }
+</style>
+
+
+<head>
+
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <!------ Include the above in your HEAD tag ---------->
+</head>
+
+<div class="container emp-profile">
+  <form method="post">
+    <div class="row">
+
+      <div class="col-md-6">
+        <div class="profile-head">
+          <h2>
+            <%= @campus.name.capitalize %>
+
+          </h2>
+          <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Courses</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="events-tab" data-toggle="tab" href="#events" role="tab" aria-controls="events" aria-selected="false">Rooms</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="map-tab" data-toggle="tab" href="#map" role="tab" aria-controls="map" aria-selected="false">Map</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <% if current_user and current_user.has_role? :admin %>
+        <%= link_to "Edit campus", edit_campus_path(@campus), class: "profile-edit-btn" %>
+<%end %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-8">
+        <div class="tab-content profile-tab" id="myTabContent">
+          <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+            <div class="row">
+              <div class="col-md-6">
+                <label><%=@campus.description %></label>
+              </div>
+            </div>
+
+          </div>
+          <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+            <% Course.where(campus_id: @campus.id).each do |event| %>
+              <div class="row">
+                <div class="col-md-6">
+                  <label><%= event.name %></label>
+                </div>
+                <div class="col-md-6">
+                  <%= link_to "Visitar muro del curso", course_path(event) %>
+                </div>
+
+              </div>
+            <% end %>
+            </p>
+          </div>
+          <div class="tab-pane fade" id="events" role="tabpanel" aria-labelledby="events-tab">
+            <% Classroom.where(campus_id: @campus.id).each do |room| %>
+              <div class="row">
+                <div class="col-md-6">
+                  <label><%= room.title %></label>
+                </div>
+                <div class="col-md-6">
+                  <%= link_to "Visitar sala ", classroom_path(room) %>
+                </div>
+
+              </div>
+            <% end %>
+            </p>
+          </div>
+          <div class="tab-pane fade" id="map" role="tabpanel" aria-labelledby="map-tab">
+            <div class="col-md-4">
+              <div class="profile-img">
+                <iframe width="500" height="400" frameborder="0" src="https://www.bing.com/maps/embed?h=400&w=500&cp=-33.49904135475157~-70.61054420471193&lvl=15&typ=d&sty=r&src=SHELL&FORM=MBEDV8" scrolling="no">
+                </iframe>
+                <div style="white-space: nowrap; text-align: center; width: 500px; padding: 6px 0;">
+                </div>
+              </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

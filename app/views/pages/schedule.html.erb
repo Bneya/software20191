@@ -1,38 +1,32 @@
-<% connected = current_user %>
-<% if connected %><% isadmin = (current_user.has_role? :admin) %><% end %>
-
-<% if !(connected) %>
+<% if !(@is_connected) %>
   <div class="errorcustom"> ERROR: Debes estar conectado a tu cuenta ver los eventos disponibles </div>
 <% else %>
 
-<head>
-    <meta charset="utf-8">
-    <title>Bootswatch: United</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="stylesheet" href="../4/united/bootstrap.css" media="screen">
-    <link rel="stylesheet" href="../_assets/css/custom.min.css">
-    <script type="text/javascript" async="" src="https://ssl.google-analytics.com/ga.js"></script><script>
-
-     var _gaq = _gaq || [];
-      _gaq.push(['_setAccount', 'UA-23019901-1']);
-      _gaq.push(['_setDomainName', "bootswatch.com"]);
-        _gaq.push(['_setAllowLinker', true]);
-      _gaq.push(['_trackPageview']);
-
-     (function() {
-       var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-       ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-       var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-      })();
-
-      </script>
-    <script id="_carbonads_projs" type="text/javascript" src="https://srv.carbonads.net/ads/CKYIE23N.json?segment=placement:bootswatchcom&amp;callback=_carbonads_go">
-      </script>
-</head>
 
 <body>
-  <h1>Eventos del dia <%= Date.strptime("December 31, 2018", "%B %d, %Y") + params[:day].to_i %></h1>
+
+  <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+    <button type="button" class="btn btn-primary btn-sm disabled"><%=@campus.name%></button>
+    <div class="btn-group" role="group">
+      <button id="btnGroupDrop1" type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+      <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+        <% Campus.all.each do |campus| %>
+          <% if campus.id != @campus.id.to_i %>
+            <%= button_to campus.name, {:controller => "pages",
+                                            :action => "schedule",
+                                            :day => @day,
+                                            :campus_id => campus.id},
+                                            {:method => :post, class: "dropdown-item"} %>
+
+          <%end%>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+
+  <h1>Campus <%=@campus.name%></h1>
+  <h3>Eventos del dia <%= @date_text %></h3>
 
   <!-- Tabla de eventos por sala -->
   <table class="table table-hover">
@@ -51,38 +45,77 @@
     </thead>
 
     <tbody>
-      <% Classroom.where(campus_id: params[:campus]).find_each do |classroom| %>
+      <% @classroom_list.find_each do |classroom| %>
         <tr>
           <td>
-            <%= button_to classroom.title, {:controller => "classrooms",
-                                            :action => "show",
-                                            :id => classroom.id,
-                                            :day => params[:day],
-                                            :campus => params[:campus]},
-                                            {:method => :post, class: "btn btn-outline-info"} %>
+            <%= button_to classroom.title, classroom,
+                                            {:method => :get, class: "btn btn-outline-info"} %>
 
             </td>
           <% (1..8).each do |schedule| %>
-            <% if Event.where(day: params[:day], schedule: schedule, classroom_id: classroom.id).exists?(conditions = :none) %>
-              <% event = Event.find_by(day: params[:day], schedule: schedule, classroom_id: classroom.id) %>
+            <% if Event.where(day: @day, schedule: schedule, classroom_id: classroom.id).exists?(conditions = :none) %>
+              <% event = Event.find_by(day: @day, schedule: schedule, classroom_id: classroom.id) %>
               <td>
                  <%= link_to event.title, {:controller => "events",
                                                 :action => "show",
                                                 :id => event.id,
-                                                :day => params[:day],
-                                                :campus => params[:campus]},
+                                                :day => @day,
+                                                :campus_id => @campus.id},
                                                 {:method => :get,
                                                  class: "btn btn-danger"} %>
                 </td>
             <% else %>
               <td>
-                 <%= button_to "Crear Evento", {:controller => "events",
-                                                :action => "new",
-                                                :day => params[:day],
-                                                :schedule => schedule,
-                                                :classroom => classroom.id,
-                                                :campus => params[:campus]},
-                                                {:method => :post, class: "btn btn-success"} %>
+
+                <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                  <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" ><%="Disponible"%></button>
+                    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                      <% if !(@is_alumno) && !(@is_teacher) && !(@is_admin) %>
+                        <div class="dropdown-item">
+                          <p>No tienes cursos inscritos</p>
+                        </div>
+                      <% end %>
+                      <% if @is_alumno || @is_admin || @is_teacher %>
+                        <%= button_to "Organizar Grupo de Estudio", {:controller => "events",
+                                                        :action => "new",
+                                                        :schedule => schedule,
+                                                        :classroom_id => classroom,
+                                                        :day => @day,
+                                                        :event_type => "Grupo de Estudio"},
+                                                        {:method => :post, class: "dropdown-item"} %>
+                      <% end %>
+                      <% if @is_alumno || @is_admin %>
+                        <%= button_to "Buscar Profesor Particular", {:controller => "events",
+                                                        :action => "new",
+                                                        :schedule => schedule,
+                                                        :classroom_id => classroom,
+                                                        :day => @day,
+                                                        :event_type => "Buscar Profesor Particular"},
+                                                        {:method => :post, class: "dropdown-item"} %>
+                      <% end %>
+                      <% if @is_admin || @is_teacher %>
+                        <div class="dropdown-divider"></div>
+                        <%= button_to "Organizar Clases Particulares", {:controller => "events",
+                                                        :action => "new",
+                                                        :schedule => schedule,
+                                                        :classroom_id => classroom,
+                                                        :day => @day,
+                                                        :event_type => "Clases Particulares"},
+                                                        {:method => :post, class: "dropdown-item"} %>
+                      <% end %>
+                      <% if @is_admin %>
+                        <div class="dropdown-divider"></div>
+                        <%= button_to "Organizar Evento Externo", {:controller => "events",
+                                                        :action => "new",
+                                                        :schedule => schedule,
+                                                        :classroom_id => classroom,
+                                                        :day => @day,
+                                                        :event_type => "Evento Externo"},
+                                                        {:method => :post, class: "dropdown-item"} %>
+                      <% end %>
+                    </div>
+                </div>
+
                 </td>
             <%end%>
           <%end%>
@@ -92,75 +125,78 @@
   </table>
 
   <!-- Barra de Navegacion -->
-  <div>
-    <ul class="pagination pagination-lg">
-      <% if Time.new.yday == params[:day].to_i %>
-        <li class="page-item disabled">
+  <div class="text-center">
+    <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+      <% if Time.new.yday == @day.to_i %>
+        <button class="page-item disabled">
           <a class="page-link" href="#">&laquo;</a>
-        </li>
+        </button>
       <% else %>
-        <li class="page-item">
+        <button class="page-item">
           <%= button_to "«", {:controller => "pages",
                                   :action => "schedule",
-                                  :campus => params[:campus],
-                                  :day => params[:day].to_i - 1},
+                                  :campus_id => @campus.id,
+                                  :day => @day.to_i - 1},
                                   {class: "page-link"} %>
-        </li>
+        </button>
       <% end %>
-      <% if params[:day].to_i - Time.new.yday <= 3 %>
+      <% if @day.to_i - Time.new.yday <= 3 %>
         <% (1..9).each do |pag_n| %>
-          <% if params[:day].to_i - Time.new.yday == pag_n - 1  %>
-            <li class="page-item active">
+          <% if @day.to_i - Time.new.yday == pag_n - 1  %>
+            <button class="page-item active">
               <%= button_to pag_n, {:controller => "pages",
                                   :action => "schedule",
-                                  :campus => params[:campus],
+                                  :campus_id => @campus.id,
                                   :day => Time.new.yday + pag_n - 1},
                                   {:class => "page-link"} %>
-            </li>
+            </button>
           <% else %>
-            <li class="page-item">
+            <button class="page-item">
               <%= button_to pag_n, {:controller => "pages",
                                   :action => "schedule",
-                                  :campus => params[:campus],
+                                  :campus_id => @campus.id,
                                   :day => Time.new.yday + pag_n - 1},
                                   {:class => "page-link"} %>
-            </li>
+            </button>
           <% end %>
         <% end %>
       <% else %>
-        <% pag_ini = params[:day].to_i - Time.new.yday + 1 %>
+        <% pag_ini = @day.to_i - Time.new.yday + 1 %>
         <% (pag_ini - 4..pag_ini + 4).each do |pag_n| %>
-          <% if params[:day].to_i - Time.new.yday == pag_n - 1  %>
-            <li class="page-item active">
+          <% if @day.to_i - Time.new.yday == pag_n - 1  %>
+            <button class="page-item active">
               <%= button_to pag_n, {:controller => "pages",
                                   :action => "schedule",
-                                  :campus => params[:campus],
+                                  :campus_id => @campus.id,
                                   :day => Time.new.yday + pag_n - 1},
                                   {:class => "page-link"} %>
-            </li>
+            </button>
           <% else %>
-          <li class="page-item">
+          <button class="page-item">
             <%= button_to pag_n, {:controller => "pages",
                                 :action => "schedule",
-                                :campus => params[:campus],
+                                :campus_id => @campus.id,
                                 :day => Time.new.yday + pag_n - 1},
                                 {:class => "page-link"} %>
-          </li>
+          </button>
           <% end %>
         <% end %>
       <% end %>
-      <li class="page-item">
+      <button class="page-item">
         <%= button_to "»", {:controller => "pages",
                             :action => "schedule",
-                            :campus => params[:campus],
-                            :day => params[:day].to_i + 1},
+                            :campus_id => @campus.id,
+                            :day => @day.to_i + 1},
                             {:class => "page-link"} %>
-      </li>
-    </ul>
+      </button>
+    </div>
   </div>
-
-
-
+  <% if (@is_connected && @is_admin) %>
+    <hr class="my-4"></hr>
+    <div class="text-center">
+      <%= button_to 'Lista de Salas', classrooms_path, method: :get,class:"btn btn-primary" %>
+    </div>
+  <% end %>
 </body>
 
 <%end%>

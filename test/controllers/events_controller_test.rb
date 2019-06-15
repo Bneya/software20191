@@ -17,7 +17,7 @@ class EventsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create event" do
     assert_difference('Event.count') do
-      post events_url, params: { event: { actual_users: @event.actual_users, classroom_id: @event.classroom_id, course_id: @event.course_id, day: @event.day, description: @event.description, event_type: @event.event_type, max_users: @event.max_users, price: @event.price, schedule: @event.schedule, title: @event.title } }
+      post events_url, params: { event: { user_id: @event.user_id, classroom_id: @event.classroom_id, course_id: @event.course_id, day: @event.day, description: @event.description, event_type: @event.event_type, max_users: @event.max_users, price: @event.price, schedule: @event.schedule, title: @event.title } }
     end
 
     assert_redirected_to event_url(Event.last)
@@ -34,7 +34,7 @@ class EventsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update event" do
-    patch event_url(@event), params: { event: { actual_users: @event.actual_users, classroom_id: @event.classroom_id, course_id: @event.course_id, day: @event.day, description: @event.description, event_type: @event.event_type, max_users: @event.max_users, price: @event.price, schedule: @event.schedule, title: @event.title } }
+    patch event_url(@event), params: { event: { user_id: @event.user_id, classroom_id: @event.classroom_id, course_id: @event.course_id, day: @event.day, description: @event.description, event_type: @event.event_type, max_users: @event.max_users, price: @event.price, schedule: @event.schedule, title: @event.title } }
     assert_redirected_to event_url(@event)
   end
 

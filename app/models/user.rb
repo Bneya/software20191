@@ -20,6 +20,9 @@ class User < ApplicationRecord
   has_many :courses
   has_many :postcomments
   has_many :posts
+  has_many :eventpostcomments
+  has_many :eventposts
   has_many :events
+  has_many :classroomcomments
 
 end

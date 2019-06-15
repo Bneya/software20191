@@ -1,47 +1,65 @@
-<!-- Estas líneas se deben borrar luego, son solo hasta que exista current_user y la implementación devise -->
-
-
-<!-- -----------------------------------------------------------------------------------  -->
-
-<% connected = current_user %>
-<% if connected %><% isadmin = (current_user.has_role? :admin) %><% end %>
-
 <p id="notice"><%= notice %></p>
 
-<h1>Courses</h1>
+<head>
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+</head>
+<!------ Include the above in your HEAD tag ---------->
 
-<table class="table table-hover">
-  <thead class="thead-dark">
-    <tr>
-      <th>ID</th>
-      <th>Name</th>
-      <th>Campus</th>
-      <th>Description</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+<div class= "h1">
+  <center><h1>Lista de cursos</h1></center>
+</div>
 
-  <tbody>
-    <% @courses.each do |course| %>
-      <tr>
-        <td><%= course.id %></td>
-        <td><%= course.name %></td>
-        <td><%= Campus.find(course.campus_id).name %></td>
-        <td><%= course.description %></td>
-        <td><%= link_to 'Ir al muro del curso', course %></td>
 
-        <% if connected && isadmin %>
-          <td><%= link_to 'Editar curso', edit_course_path(course) %></td>
-          <td><%= link_to 'Eliminar curso', course, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-        <% end %>
+<center>
 
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+  <div class="container">
+    <div class="row col-md-6 col-md-offset-2 custyle">
+      <table class="table table-striped custab">
+        <thead>
+        <tr>
+          <th class="text-center">ID del curso</th>
+          <th class="text-center">Nombre del curso</th>
+          <% if current_user %>
+            <%if ((current_user.has_role? :mod, @course) || (current_user.has_role? :admin ))%>
+              <th class = "text-center">Edit</th>
+              <th class="text-center">Delete</th>
+            <%end %>
+          <%end %>
 
-<br>
+        </tr>
+        </thead>
 
-<% if connected && isadmin %>
-  <%= link_to 'New Course', new_course_path %>
+        <% @courses.each do |course| %>
+          <tr>
+            <td class = "text-center"><%= course.id%></td>
+            <td class = "text-center"><%= link_to course.name, course_path(course) %></td>
+            <% if current_user %>
+              <%if ((current_user.has_role? :mod, @course) || (current_user.has_role? :admin ))%>
+
+                <td class = "text-center">
+                  <a class= "btn btn-info btn-xs"><%= link_to "Editar", edit_course_path(course), :class => 'btn',
+                                                              data: {confirm: "Are you sure?"}%>
+                </td>
+
+                <td class = "text-center">
+                  <a class= "btn btn-danger btn-xs"><%= link_to "Eliminar", course, method: :delete, :class => 'btn',
+                                                                data: {confirm: "Are you sure?"}%>
+                </td>
+              <%end%>
+            <%end%>
+
+        <%end%>
+        </tr>
+
+      </table>
+    </div>
+
+  </div>
+</center>
+
+<% if current_user and current_user.has_role? :admin %>
+  <a class= "btn btn-success btn-xs"><%= link_to "Nuevo curso", new_course_path, :class => 'btn',
+                                                 data: {confirm: "Are you sure?"}%>
 <% end %>

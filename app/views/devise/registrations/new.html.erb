@@ -1,4 +1,19 @@
 <!-- Probando el nuevo html+css+bootstrap-->
+<% def get_api_info
+     nasa_api = "https://api.nasa.gov/planetary/apod?api_key=#{ENV['NASA_API_KEY']}"
+     request_to_nasa_api = Net::HTTP.get(URI(nasa_api))
+     JSON.parse request_to_nasa_api
+   end
+%>
+<% def picture
+     nasa_info = get_api_info
+     if nasa_info['media_type'].eql?('video')
+      'https://source.unsplash.com/WEQbe2jBg40/600x1200'
+      else
+      nasa_info['url']
+      end
+   end
+%>
 
 <head>
     <style type="text/css">
@@ -13,7 +28,6 @@
       }
       
       .bg-image {
-        background-image: url('https://source.unsplash.com/WEQbe2jBg40/600x1200');
         background-size: cover;
         background-position: center;
       }
@@ -95,7 +109,7 @@
   
   <body>
   
-  
+
     <div class="container-fluid">
       <div class="row no-gutter">
         <div class="col-md-8 col-lg-6">
@@ -130,11 +144,12 @@
                   <button class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2" type="submit">Registrarse</button>
                 <% end %>
                 </div>
+
               </div>
             </div>
           </div>
         </div>
-        <div class="d-none d-md-flex col-md-4 col-lg-6 bg-image"></div>
+        <div class="d-none d-md-flex col-md-4 col-lg-6 bg-image", </div>
       </div>
     </div>
   </body>

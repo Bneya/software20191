@@ -52,11 +52,11 @@
           </div>
         </div>
 	</div>
-</div>
 <!-- Fin de la barra de búsqueda -->
 
 <section class="banner-sec centeredcon">
   <div class="container">
+
 		<% @posts.each do |post| %>
     <div class="row">
       <div class="col-md-12">
@@ -90,3 +90,15 @@
 		<% end %>
   </div>
 </section>
+
+
+<%= @posts.mean(&:id) %>
+<% @posts.each do |p| %>
+<%= p.id %>
+<% end %>
+
+Estos son los cursos
+<%= Course.all %>
+<% Course.all.each do |course| %>
+	<%= course.name %> Cantidad de posts <%= course.posts.count %>
+<% end %>

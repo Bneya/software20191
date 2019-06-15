@@ -8,12 +8,17 @@ class PostsController < ApplicationController
     @cursos = Course.all
 
     @posts = Post.where(nil)
+
     @posts = @posts.course_id(params[:course_id]) if (params[:course_id].present? && params[:course_id] != '0')
     # @posts = @posts.contains(params[:contains]) if params[:contains].present?
     @posts = @posts.where('title like ?', '%' + params[:intitle] + '%') if params[:intitle].present?
     @posts = @posts.where('content like ?', '%' + params[:incontent] + '%') if params[:incontent].present?
     @posts = @posts.order(cached_votes_up: :desc)
     # @posts = Post.filter(params.slice(:course_id))
+
+    puts "lo que sale de index"
+    puts @posts
+
   end
 
   # GET /posts/1

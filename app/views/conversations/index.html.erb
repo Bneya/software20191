@@ -1,0 +1,59 @@
+
+<head>
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+  <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+</head>
+
+<!------ Include the above in your HEAD tag ---------->
+<h1>Inbox</h1>
+<%if current_user %>
+
+
+
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/holder/2.4.1/holder.js"></script>
+<div style="padding: 20px 20% 0 20%">
+  <div class="btn-group">
+    <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
+      Nuevo Mensaje <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" role="menu">
+      <% @users.each do |user| %>
+        <li><%= link_to user.username , conversations_path(sender_id: current_user.id, receiver_id: user.id), {method: :post ,:remote => true, 'data-toggle' =>  "modal", 'data-target' => '#modal-window'} %></li>
+      <%end %>
+    </ul>
+  </div>
+  <div class="chat_list">
+    <ul class="list-group">
+      <%@conversations.each do |conversation|%>
+        <% other = conversation.recipient(current_user) %>
+      <li class="list-group-item">
+        <div class="pull-left hidden-xs">
+          <div>
+            <img class="img-circle" title="User1" alt="User1" data-src= <%= image_tag other.gravatar_url(:default => "wavatar", :size=>45)%>
+          </div>
+
+          </div>
+
+        <small class="pull-right text-muted"><%= conversation.updated_at%></small>
+        <div>
+          <small class="list-group-item-heading text-muted text-primary"> <%= other.username.capitalize%></small>
+            <% message = conversation.messages.last %>
+            <% if message.body %>
+              <p class="list-group-item-text">
+              <%= message.body.truncate(27) %>
+              </p>
+            <% end %>
+        </div>
+        </div>
+      </li>
+
+    <%end%>
+    </ul>
+</div>
+</div>
+
+<%else%>
+<div class="errorcustom"> ERROR: Debes estar loggeado para revisar tus mensajes! </div>
+
+<%end%>

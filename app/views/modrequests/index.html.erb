@@ -4,7 +4,7 @@
 <!------ Include the above in your HEAD tag ---------->
 
 <div class= "h1">
- <center><h1>Solicitudes de Moderador</h1></center>
+  <h1>Solicitudes de Moderador</h1>
 </div>
 
 <% if current_user %>
@@ -17,8 +17,8 @@
             <th>ID</th>
             <th>User</th>
             <th>Curso</th>
-            <th class="text-center">Action</th>
-            <th class="text-center">Action</th>
+          <th class="text-center">Aceptar</th>
+          <th class="text-center">Rechazar</th>
 
         </tr>
     </thead>
@@ -32,24 +32,24 @@
                 <td><%= @course.name %></td>
                 <td class = "text-center">
                 <a class= "btn btn-info btn-xs"><%= link_to "Aceptar", {:controller => "modrequests",
-                                                                    :action => "accept",
-                                                                    :modrequest_id => mr,
-                                                                    :user_id => mr.user_id,
-                                                                    :course_id => mr.course_id,
-                                                                    :id => mr, 
-                                                                    :method => :patch
+                                                                        :action => "accept",
+                                                                        :modrequest_id => mr,
+                                                                        :user_id => mr.user_id,
+                                                                        :id => mr,
+                                                                        :course_id => mr.course_id,
+                                                                        :method => :post
                                                                     }, :class => 'btn',
                                                                     data: {confirm: "Are you sure?"}
                                                                     %>
                 </td>
                 <td class = "text-center">
                     <a class= "btn btn-warning btn-xs"><%= link_to "Rechazar", {:controller => "modrequests",
-                                                                        :action => "reject",
-                                                                        :modrequest_id => mr,
-                                                                        :user_id => mr.user_id,
-                                                                        :course_id => mr.course_id,
-                                                                        :id => mr, 
-                                                                        :method => :delete
+                                                                                :action => "reject",
+                                                                                :modrequest_id => mr.id,
+                                                                                :user_id => mr.user_id,
+                                                                                :id => mr.id,
+                                                                                :course_id => mr.course_id,
+                                                                                :method => :post
                                                                         }, :class => 'btn',
                                                                         data: {confirm: "Are you sure?"}
 

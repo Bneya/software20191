@@ -1,6 +1,6 @@
-<h1>Nuevo Evento</h1>
 
+<%= render @form_file, event: @event %>
 
-<%= render 'form', event: @event %>
-
-<%= link_to 'Back', events_path %>
+<div class="text-center">
+  <%= button_to 'Regresar a Horarios', schedule_path(day: @day, campus_id: @classroom.campus_id), class: "btn btn-primary" %>
+</div>

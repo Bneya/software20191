@@ -2,10 +2,38 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+.linkcrear {
+    color: white!important;
+    background-color: #dc3545;
+    padding: 4px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+.linkcrear a {
+  color: white;
+}
+
+.linkcrear a:visited {
+  color: white!important;
+  text-decoration: none;
+}
+
+.linkcrear a:hover {
+  text-decoration: none;
+  background-color: transparent!important;
+}
+
+
 .course-name {
   font-size: 30px;
   text-align: center;
   margin-bottom: 10px;
+  background-color: #dc3545;
+  color: white;
 }
 
 .course-show-body {
@@ -57,4 +85,37 @@
 
 .block .userlistcol {
   border: 1px solid black;
+}
+
+.custab{
+  border: 1px solid #ccc;
+  padding: 5px;
+  margin: 5% 0;
+  box-shadow: 3px 3px 2px #ccc;
+  transition: 0.5s;
+}
+.custab:hover{
+  box-shadow: 3px 3px 0px transparent;
+  transition: 0.5s;
+}
+
+.content h1 {
+  text-align: center;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  color: #353535;
+}
+.content h1 {
+  text-align: center;
+}
+.content .content-footer p {
+  color: #6d6d6d;
+  font-size: 12px;
+  text-align: center;
+}
+.content .content-footer p a {
+  color: inherit;
+  font-weight: bold;
 }

@@ -1,5 +1,5 @@
 class EventpostsController < ApplicationController
-  before_action :set_eventpost, only: [:show, :edit, :update, :destroy]
+  before_action :set_eventpost, only: [:show, :edit, :update, :destroy, :like, :dislike]
 
   # GET /eventposts
   # GET /eventposts.json
@@ -10,11 +10,26 @@ class EventpostsController < ApplicationController
   # GET /eventposts/1
   # GET /eventposts/1.json
   def show
+    @is_connected = current_user
+
+    if @is_connected
+      @isadmin = (current_user.has_role? :admin)
+      @is_author = (current_user.id == @eventpost.user_id)
+      @is_event_author = (current_user.id == @eventpost.event.user_id) # user_id == id del autor
+      @eventpostcomment = Eventpostcomment.new
+    end
+
+    @postuser = @eventpost.user
+    @postusercount = @postuser.posts.count + @postuser.eventposts.count
+    @postuserscore = @postuser.posts.sum(:cached_votes_score) + @postuser.eventposts.sum(:cached_votes_score)
+
   end
 
   # GET /eventposts/new
   def new
+    @is_subscriptor = Eventsubsription.exists?(:user_id => current_user.id, :event_id => params[:event_id])
     @eventpost = Eventpost.new
+    @event = Event.find(params[:event_id])
   end
 
   # GET /eventposts/1/edit
@@ -54,11 +69,22 @@ class EventpostsController < ApplicationController
   # DELETE /eventposts/1
   # DELETE /eventposts/1.json
   def destroy
+    event = @eventpost.event
     @eventpost.destroy
     respond_to do |format|
-      format.html { redirect_to eventposts_url, notice: 'Eventpost was successfully destroyed.' }
+      format.html { redirect_to event, notice: 'Eventpost was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def like
+    @eventpost.liked_by current_user
+    redirect_to @eventpost
+  end
+
+  def dislike
+    @eventpost.disliked_by current_user
+    redirect_to @eventpost
   end
 
   private

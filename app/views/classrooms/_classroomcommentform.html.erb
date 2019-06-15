@@ -1,0 +1,13 @@
+<%= form_with(model: classroomcomment, local: true) do |form| %>
+
+
+    <%= form.text_field :content,
+                        :placeholder => "Escribe tu comentario" %>
+    <%= form.hidden_field :classroom_id,
+                          :value => @classroom.id %>
+    <%= form.hidden_field :user_id,
+                          :value => current_user.id %>
+    <%= form.hidden_field :rate,
+                          :value => 0 %>
+
+<% end %>

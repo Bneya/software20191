@@ -8,7 +8,7 @@ class CreateEvents < ActiveRecord::Migration[5.1]
       t.integer :schedule
       t.integer :day
       t.string :event_type
-      t.integer :actual_users
+      t.integer :user_id
       t.integer :max_users
       t.integer :price
 

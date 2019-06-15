@@ -1,29 +1,187 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Title:</strong>
-  <%= @eventpost.title %>
-</p>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <title>Bootply snippet - Forum posts</title>
+    <meta name="generator" content="Bootply" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="Forum posts template with bootstrap 3.2" />
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
 
-<p>
-  <strong>User:</strong>
-  <%= @eventpost.user_id %>
-</p>
+    <!--[if lt IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link rel="apple-touch-icon" href="/bootstrap/img/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/bootstrap/img/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/bootstrap/img/apple-touch-icon-114x114.png">
 
-<p>
-  <strong>Event:</strong>
-  <%= @eventpost.event_id %>
-</p>
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" type="text/css" rel="stylesheet">
 
-<p>
-  <strong>Content:</strong>
-  <%= @eventpost.content %>
-</p>
+  </head>
 
-<p>
-  <strong>Rate:</strong>
-  <%= @eventpost.rate %>
-</p>
+  <!-- HTML code from Bootply.com editor -->
 
-<%= link_to 'Edit', edit_eventpost_path(@eventpost) %> |
-<%= link_to 'Back', eventposts_path %>
+  <body >
+
+    <section class="container">
+
+  <section class="row clearfix">
+      <section class="col-md-12 column">
+          <div class="row clearfix">
+              <div class="col-md-12 column">
+                  <div class="panel panel-default">
+                      <div class="panel-heading">
+                          <section class="panel-title">
+
+                              <time class="pull-right">
+                                <i class="fa fa-calendar"></i> <%= @eventpost.created_at.strftime("%d-%m-%Y") %> ,
+                                <i class="fa fa-clock-o"></i> <%= @eventpost.created_at.strftime("%H:%M") %>
+
+                              </time>
+                              <div class="pull-right span-right">
+                                <%= button_to '', eventposts_like_path(id: @eventpost.id), class: 'votes-btn like-btn' %>
+                                <%= button_to '', eventposts_dislike_path(id: @eventpost.id), class: 'votes-btn dislike-btn' %>
+                                <i class="fa fa-thumbs-up like-label"></i> <%= @eventpost.get_likes.size %>
+                                <i class="fa fa-thumbs-down dislike-label"></i> <%= @eventpost.get_dislikes.size %>
+                              </div>
+                              <section class="pull-left badge badge-pill badge-danger red" id="id">#<%= @eventpost.id %> - <%= @eventpost.event.title %></section>
+                          </section>
+                      </div>
+                      <section class="row panel-body">
+                          <section class="col-md-9 justified">
+                               <h2> <i class="fa fa-smile-o"></i> <%= @eventpost.title %></h2>
+
+                              <hr>
+                              <%= @eventpost.content.html_safe %> </section>
+
+                          <section id="user-description" class="col-md-3 ">
+                              <section class="well">
+                                  <a href="/users/<%= @eventpost.user.id %>"><%= @eventpost.user.username %></a>
+                                  <figure>
+                                      <img class="img-rounded img-responsive" src="<%= @eventpost.user.gravatar_url(:default => "wavatar", :size=>120) %>"
+                                      alt="Mohammad Sharifi's avatar">
+
+                                  </figure>
+                                  <dl class="dl-horizontal">
+                                    <dt>Joined:</dt><dd><%= @postuser.created_at.strftime("%d of %B %Y") %></dd>
+                                    <dt>Posts:</dt><dd><%= @postusercount %></dd>
+                                    <dt>Score:</dt><dd><%= @postuserscore %> puntos en <%= @postusercount %> posts</dd>
+                                  </dl>
+                              </section>
+                          </section>
+                      </section>
+                      <div class="panel-footer">
+                          <div class="row">
+
+
+                              <section class="col-md-12 pull-right">
+                                <span class="fa-stack"></span>
+                                <i class="fa fa-mail-reply "></i><a href=<%= event_path(@eventpost.event.id) %> > Volver al evento </a> |
+                                <% if @is_connected && @is_author %>
+
+                                  <i class="fa fa-edit "></i><a href= <%= edit_eventpost_path(@eventpost) %>> Editar post </a> |
+
+                                <% end %>
+
+                                <% if @is_connected && (@is_admin || @is_author || @is_event_author) %>
+                                  <%= link_to 'Eliminar publicación', @eventpost, method: :delete, data: { confirm: '¿Seguro que quieres borrar la publicación?' } %>
+                                <% end %>
+
+                              </section>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </section>
+  </section>
+</section>
+
+  </body>
+</html>
+
+
+<!-- comments container -->
+		<div class="comment_block">
+      <h2>Comentarios de la publicación:</h2>
+
+		 <!-- used by #{user} to create a new comment -->
+		 <div class="create_new_comment">
+
+			<!-- current #{user} avatar -->
+		 	<div class="user_avatar">
+		 		<img src=<%= current_user.gravatar_url(:default => "wavatar", :size=>120) %> >
+		 	</div><!-- the input field --><div class="input_comment">
+
+        <% if @is_connected %>
+          <%= render 'eventpostcommentform', eventpostcomment: @eventpostcomment %>
+        <% else %>
+          Necesitas estar conectado para poder comentar las publicaciones
+        <% end %>
+		 	</div>
+
+		 </div>
+
+		 <!-- TODOS LOS COMENTARIOS new comment -->
+     <% @eventpost.eventpostcomments.order(created_at: :desc).each do |comm| %>
+		 <div class="new_comment">
+
+			<!-- build comment -->
+		 	<ul class="user_comment">
+
+		 		<!-- current #{user} avatar -->
+			 	<div class="user_avatar">
+			 		<img src="<%= comm.user.gravatar_url(:default => "wavatar", :size=>120) %>">
+			 	</div><!-- the comment body --><div class="comment_body">
+			 		<p><%= comm.content %></p>
+			 	</div>
+
+			 	<!-- comments toolbar -->
+			 	<div class="comment_toolbar">
+
+			 		<!-- inc. date and time -->
+			 		<div class="comment_details">
+			 			<ul>
+
+			 				<li><i class="fa fa-clock-o"></i> <%= comm.created_at.strftime("%H:%M") %></li>
+			 				<li><i class="fa fa-calendar"></i> <%= comm.created_at.strftime("%d-%m-%Y") %></li>
+			 				<li><i class="fa fa-user"></i> <span class="user"><a href="/users/<%= comm.user.id %>"><%= comm.user.username %></a></span></li>
+			 			</ul>
+			 		</div><!-- inc. share/reply and love --><div class="comment_tools">
+			 			<ul>
+			 				<li><i class="fa fa-thumbs-up like-label"></i> <%= comm.get_likes.size %></li>
+              <li><i class="fa fa-thumbs-down dislike-label"></i> <%= comm.get_dislikes.size %></li>
+              <%= button_to "LIKE", {:controller => "eventpostcomments",
+                                                     :action => "like",
+                                                     :eventpostcommentid => comm.id,
+                                                     :eventpost_id => @eventpost.id,
+                                                     :method => :post},
+                                {class: 'votes-btn like-btn'} %>
+              <%= button_to comm.get_dislikes.size, {:controller => "eventpostcomments",
+                                                     :action => "dislike",
+                                                     :eventpostcommentid => comm.id,
+                                                     :eventpost_id => @eventpost.id,
+                                                     :method => :post},
+                                 {class: 'votes-btn dislike-btn'} %>
+              >
+
+			 			</ul>
+			 		</div>
+          <% if @is_connected && (@is_admin || @is_author || @is_event_author) %>
+            <a href="/eventpostcomments/<%= comm.id %>/?eventpost_id=<%= @eventpost.id %>"
+               data-confirm="¿Estás seguro que quieres borrar este comentario?"
+               data-method="delete">Eliminar comentario</a>
+
+          <% end %>
+			 	</div>
+		 	</ul>
+		 </div>
+     <!-- Final del loop de comentarios-->
+
+     <% end %>
+
+
+		</div>

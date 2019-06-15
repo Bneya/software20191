@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<head>
+  <title></title>
+  <meta charset="utf-8"/>
+  <script type='text/javascript'>
+      function GetMap() {
+          var map = new Microsoft.Maps.Map('#myMap', {});
+          map.setView({
+              mapTypeId: Microsoft.Maps.MapTypeId.aerial,
+              center: new Microsoft.Maps.Location(<%= @event.classroom.ubication %>),
+              zoom: 15,
+
+          });
+      }
+  </script>
+  <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=AiV3nq3V5FZeLRFcIjha7ckayj0DzNNhtLD5wjkgvhVrki4Fa_ZJmptDU0qm5wcp' async defer></script>
+</head>
+<style type="text/css">
+  .emp-profile {
+    padding: 3%;
+    margin-top: 3%;
+    margin-bottom: 3%;
+    border-radius: 0.5rem;
+    background: #fff;
+    align-items: center;
+    align-self: center;
+    align-content: center;
+  }
+
+  .profile-img {
+    text-align: center;
+  }
+
+  .profile-img img {
+    width: 70%;
+    height: 100%;
+  }
+
+  .profile-img .file {
+    position: relative;
+    overflow: hidden;
+    margin-top: -20%;
+    width: 70%;
+    border: none;
+    border-radius: 0;
+    font-size: 15px;
+    background: #212529b8;
+  }
+
+  .profile-img .file input {
+    position: absolute;
+    opacity: 0;
+    right: 0;
+    top: 0;
+  }
+
+  .profile-head h5 {
+    color: #333;
+  }
+
+  .profile-head h6 {
+    color: #0062cc;
+  }
+
+  .profile-edit-btn {
+    border: none;
+    border-radius: 1.5rem;
+    width: 70%;
+    padding: 2%;
+    font-weight: 600;
+    color: #6c757d;
+    cursor: pointer;
+  }
+
+  .profile-rating {
+    font-size: 12px;
+    color: #818182;
+    margin-top: 5%;
+  }
+
+  .proile-rating span {
+    color: #495057;
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  .profile-head .nav-tabs {
+    margin-bottom: 5%;
+  }
+
+  .profile-head .nav-tabs .nav-link {
+    font-weight: 600;
+    border: none;
+  }
+
+  .profile-head .nav-tabs .nav-link.active {
+    border: none;
+    border-bottom: 2px solid #0062cc;
+  }
+
+  .profile-work {
+    padding: 14%;
+    margin-top: -15%;
+  }
+
+  .profile-work p {
+    font-size: 12px;
+    color: #818182;
+    font-weight: 600;
+    margin-top: 10%;
+  }
+
+  .profile-work a {
+    text-decoration: none;
+    color: #495057;
+    font-weight: 600;
+    font-size: 14px;
+  }
+
+  .profile-work ul {
+    list-style: none;
+  }
+
+  .profile-tab label {
+    font-weight: 600;
+  }
+
+  .profile-tab p {
+    font-weight: 400;
+    color: #000000;
+  }
+</style>
+
+<head>
+
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+  <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+  <!------ Include the above in your HEAD tag ---------->
+</head>
+
+<div class="container emp-profile">
+
+    <!-- Perfil -->
+    <div class="col-md-4">
+      <!-- TITULO DEL PERFIL -->
+      <div class="text-center">
+        <h2>
+        <%= @event.title.capitalize %>
+        </h2>
+      </div>
+      <!-- DESCRIPCION DEL PERFIL -->
+      <div class="row">
+        <div class="col-md-12">
+          <div class="row col-md-12 custyle">
+            <table class="table table-striped custab">
+              <thead>
+              <tr>
+                <th class="text-center"><strong>Autor:</strong></th>
+                <th class="text-center"><%= @author_name %></th>
+              </tr>
+              </thead>
+              <tr>
+                  <td class = "text-center"><strong>Profesor:</strong></td>
+                  <td class = "text-center"><%= @teacher_name %></td>
+              </tr>
+              <tr>
+                <th class="text-center"><strong>Precio:</strong></th>
+                <th class="text-center">$ <%= @event.price %></th>
+              </tr>
+              <tr>
+                  <td class = "text-center"><strong>Sala:</strong></td>
+                  <td class = "text-center"><a class= "btn btn-info btn-xs"><%= link_to @event.classroom.title, @event.classroom, :class => 'btn' %></td>
+
+              </tr>
+              <tr>
+                  <td class = "text-center"><strong>Curso:</strong></td>
+                  <td class = "text-center"><a class= "btn btn-info btn-xs"><%= link_to @course.name, @course, :class => 'btn' %></td>
+              </tr>
+              <tr>
+                  <td class = "text-center"><strong>Fecha:</strong></td>
+                  <td class = "text-center"><%= @date_text %></td>
+              </tr>
+              <tr>
+                  <td class = "text-center"><strong>Horario:</strong></td>
+                  <td class = "text-center"><%= @modules[@event.schedule-1] %></td>
+              </tr>
+              <tr>
+                  <td class = "text-center"><strong>Inscritos:</strong></td>
+                  <td class = "text-center"><%= @event_count %> / <%= @event.max_users %></td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+      <!-- BOTONES -->
+      <div class="row">
+        <div class="col-md-5">
+          <a class= "btn btn-info btn-xs"></a>
+          <%= link_to "Ver Horarios", schedule_path({day: @event.day,
+                                                      campus_id: @event.classroom.campus_id}),
+                                                      class: "profile-edit-btn" %>
+        </div>
+        <% if @is_connected and @is_admin %>
+        <div class="col-md-3">
+          <a class= "btn btn-warning btn-xs"></a>
+          <%= link_to "Editar", edit_event_path(@event), class: "profile-edit-btn" %>
+        </div>
+        <div class="col-md-4">
+          <a class= "btn btn-danger btn-xs"></a>
+          <%= link_to "Eliminar", @event, method: :delete,
+                              data: { confirm: 'Are you sure?' }, class: "profile-edit-btn" %>
+        </div>
+        <%end %>
+      </div>
+      <% if @is_teacher %>
+        <hr>
+        Unirse como Profesor:
+        <div class="row">
+
+          <% if !(@teacher) %>
+            <div class="col-md-5">
+              <a class= "btn btn-success btn-xs"></a>
+              <%= button_to ' Unirse    ', {:controller => "events",
+                                                     :action => "suscribe",
+                                                     :id => @event.id,
+                                                     :user_id => current_user.id,
+                                                     :method => :post},
+                                                      class: "profile-edit-btn" %>
+            </div>
+          <% elsif @teacher==current_user %>
+            <div class="col-md-5">
+              <a class= "btn btn-danger btn-xs"></a>
+              <%= button_to ' Abandonar       ', {:controller => "events",
+                                                            :action => "desuscribe",
+                                                            :id => @event.id,
+                                                            :user_id => current_user.id,
+                                                            :method => :post},
+                                                            class: "profile-edit-btn" %>
+            </div>
+          <% elsif !(@teacher==current_user) %>
+          <div class="col-md-5">
+            <p class="text-danger">Ya hay un profesor inscrito</p>
+          </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Opciones del perfil (Pestañas) -->
+    <div class="col-md-8">
+      <!-- Header de las pestañas -->
+      <div class="row">
+        <div class="col-md-12">
+          <div class="profile-head">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+              <li class="nav-item">
+                <a class="nav-link" id="description-tab" data-toggle="tab" href="#description" role="tab" aria-controls="description" aria-selected="false">Descripción</a>
+              </li>
+              <% if @is_connected %>
+              <li class="nav-item">
+                <a class="nav-link" id="users-tab" data-toggle="tab" href="#users" role="tab" aria-controls="users" aria-selected="false">Inscritos</a>
+              </li>
+              <% end %>
+              <li class="nav-item">
+                <a class="nav-link" id="posts-tab" data-toggle="tab" href="#posts" role="tab" aria-controls="posts" aria-selected="false">Posts</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <!-- Informacion de las pestañas -->
+      <div class="row">
+        <div class="col-md-12">
+          <div class="tab-content profile-tab" id="myTabContent">
+            <!-- Descripcion -->
+            <div class="tab-pane fade" id="description" role="tabpanel" aria-labelledby="description-tab">
+              <h4 class="text-info"><%= @event.event_type.capitalize %></h4>
+              <p><%= @event.description %> </p>
+            </div>
+            <!-- Mostrar usuarios -->
+            <% if @is_connected %>
+            <div class="tab-pane fade" id="users" role="tabpanel" aria-labelledby="users-tab">
+              <div class="container">
+                <!-- Usuarios -->
+                <section class="well col-md-6">
+                  <div class="posttitle center"><strong> Lista de Inscritos: </strong></div>
+                  <hr>
+                  <% Eventsubsription.where(event_id: @event.id).each do |sub| %>
+                    <div class="userlistcol center">
+                        <% if current_user.id == sub.user_id %><b><% end %>
+                          <% if User.find(sub.user_id).realname == nil %>
+                            <%= User.find(sub.user_id).username %>
+                          <% else %>
+                            <%= User.find(sub.user_id).realname %>
+                          <% end %>
+                        <% if current_user.id == sub.user_id %></b><% end %>
+                    </div>
+                  <% end %>
+                  <!-- botones -->
+                  <hr>
+                  <div class="col">
+                    <% if !(@is_subscriptor) && !(@is_author) && !(@is_teacher) && @course_sub && !(@event_full) %>
+                    <div class="text-right">
+                      <a class= "btn btn-success btn-xs"></a>
+                      <%= button_to ' Unirse    ', {:controller => "events",
+                                                             :action => "suscribe",
+                                                             :id => @event.id,
+                                                             :user_id => current_user.id,
+                                                             :method => :post},
+                                                              class: "profile-edit-btn" %>
+                    </div>
+                    <% elsif @is_subscriptor && !(@is_author) && !(@is_teacher) && @course_sub && !(@event_full) %>
+                    <div class="text-right">
+                      <a class= "btn btn-danger btn-xs"></a>
+                      <%= button_to ' Abandonar       ', {:controller => "events",
+                                                                    :action => "desuscribe",
+                                                                    :id => @event.id,
+                                                                    :user_id => current_user.id,
+                                                                    :method => :post},
+                                                                    class: "profile-edit-btn" %>
+                    </div>
+                    <% elsif @is_subscriptor %>
+                      <p class="text-success">Estas inscrito</p>
+                    <% elsif @is_teacher %>
+                      <p class="text-danger">Eres profesor de este curso</p>
+                    <% elsif !(@course_sub)%>
+                      <p class="text-danger">No eres alumno de este curso</p>
+                    <% elsif @event_full %>
+                      <p class="text-danger">El Evento esta lleno</p>
+                    <% end %>
+                  </div>
+                </section>
+              </div>
+            </div>
+            <% end %>
+            <!-- Mostrar Posts -->
+            <div class="tab-pane fade" id="posts" role="tabpanel" aria-labelledby="posts-tab">
+              <% if @is_subscriptor %>
+                <%= render "form_posts" %>
+              <% else %>
+                <p class="text-danger">No estas suscrito<p>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>

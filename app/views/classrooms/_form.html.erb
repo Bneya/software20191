@@ -1,14 +1,7 @@
-<%# # PLACE HOLDER # %>
-<%# <% :rating_noise = 1 %> %>
-<%# <% :rating_disponibility = 1 %> %>
-<%# <% :rating_sockets = 1 %> %>
-
-<%# ################ %>
-
-<%= form_with(model: classroom, local: true) do |form| %>
+<%= form_with(model: classroom, local: true, class:"form-horizontal center") do |form| %>
   <% if classroom.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(classroom.errors.count, "error") %> prohibited this classroom from being saved:</h2>
+      <h2><%= pluralize(classroom.errors.count, "error") %> Este error impidió crear la sala:</h2>
 
       <ul>
       <% classroom.errors.full_messages.each do |message| %>
@@ -17,38 +10,33 @@
       </ul>
     </div>
   <% end %>
+<div class="row">
+  <div class="col-4"></div>
+  <div class="jumbotron col-5" >
+  <legend><b> Información de la Sala: </b></legend>
 
   <div class="field">
-    <%= form.label :title %>
-    <%= form.text_area :title, id: :classroom_title %>
+    <%= form.label "Nombre de la Sala" %>
+    <%= form.text_field :title,
+                        id: :classroom_title , class:"form-control col-12"%>
   </div>
 
-  <div class="field">
-    <%= form.label :ubication %>
-    <%= form.text_area :ubication, id: :classroom_ubication %>
-  </div>
 
   <div class="field">
-    <%= form.label :campus_id %>
-    <%= form.number_field :campus_id, id: :classroom_campus_id %>
+    <%= form.label "Ubicación de la Sala" %>
+    <%= form.text_area :ubication, id: :classroom_ubication , class:"form-control col-12" %>
   </div>
 
-  <div class="field">
-    <%= form.label :rating_noise %>
-    <%= form.number_field :rating_noise, id: :classroom_rating_noise %>
-  </div>
 
   <div class="field">
-    <%= form.label :rating_disponibility %>
-    <%= form.number_field :rating_disponibility, id: :classroom_rating_disponibility %>
+    <%= form.label "Campus" %>
+    <%= form.select :campus_id, @campuses.collect {|c| [c.name, c.id]} , class:"form-control col-12" %>
   </div>
 
-  <div class="field">
-    <%= form.label :rating_sockets %>
-    <%= form.number_field :rating_sockets, id: :classroom_rating_sockets %>
-  </div>
 
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit "Guardar cambios", class: "btn btn-success"%>
   </div>
-<% end %>
+  </div>
+</div>
+  <% end %>

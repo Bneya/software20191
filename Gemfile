@@ -47,7 +47,17 @@ gem 'simple_form'
 gem "rolify"
 
 gem 'jquery-rails'
+gem 'rails_12factor'
 
+
+# Para las estadísticas
+gem 'descriptive_statistics'
+
+# Para el panel de administración
+gem 'activeadmin'
+gem 'cancancan'
+gem 'draper'
+gem 'pundit'
 
 
 # Use Capistrano for deployment
@@ -70,5 +80,11 @@ group :development do
   gem 'spring-watcher-listen', '~> 2.0.0'
 end
 
+gem 'rest-client'
+
+
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+
+gem 'dotenv-rails', :groups => [:development, :test]
+

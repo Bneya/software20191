@@ -1,0 +1,98 @@
+<% connected = current_user %>
+<% if connected %><% isadmin = (current_user.has_role? :admin) %><% end %>
+
+<% if !(connected) %>
+  <div class="errorcustom"> ERROR: Debes estar conectado a tu cuenta ver los eventos disponibles </div>
+<% else %>
+
+  <%= form_with(model: event, local: true, class:"form-horizontal center") do |form| %>
+    <% if event.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(event.errors.count, "error") %> Este error impidió crear el evento:</h2>
+
+        <ul>
+        <% event.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+  <div class="row">
+    <div class="col-4"></div>
+    <div class="jumbotron col-5" >
+    <legend><b> Organizando Clases Particulares </b></legend>
+    <div class="form-group row">
+      <%= form.label "Profesor" , class:"col-form-label col-6"%>
+      <%= form.text_field :placeholder, disabled: true, value: @user_name,
+                                                 class: "col-6 form-control-plaintext"%>
+    </div>
+
+    <div class="form-group row">
+      <%= form.label "Sala" , class:"col-form-label col-6"%>
+      <%= form.text_field :placeholder, disabled: true, value: @classroom.title,
+                                        class:"form-control-plaintext col-6"  %>
+    </div>
+
+    <div class="form-group row">
+      <%= form.label "Fecha" , class:"col-form-label col-6"%>
+      <%= form.text_field :placeholder, disabled: true, value: @date_text,
+                                        class:"form-control-plaintext col-6"%>
+    </div>
+
+    <div class="form-group row">
+      <%= form.label "Horario" , class:"col-form-label col-6"%>
+      <%= form.text_field :placeholder,  disabled: true, value: @modules[@schedule.to_i-1] , class:"form-control-plaintext col-6"%>
+    </div>
+
+    <hr class="my-4"></hr>
+
+    <div class="field">
+      <%= form.label "Nombre del evento" %>
+      <%= form.text_field :title,
+                          id: :title_name , class:"form-control col-12"%>
+    </div>
+
+
+    <div class="field">
+      <%= form.label "Descripcion del evento" %>
+      <%= form.text_area :description, id: :event_description , class:"form-control col-12" %>
+    </div>
+
+    <div class="field">
+      <%= form.label "Precio" %>
+      <%= form.number_field :price, id: :event_price , class:"form-control col-12" %>
+    </div>
+
+    <div class="field">
+      <%= form.label "Limite de alumnos" %>
+      <%= form.number_field :max_users, id: :event_max_users , class:"form-control col-12" %>
+    </div>
+
+    <div class="field">
+      <%= form.label "Curso" %>
+      <%= form.select :course_id, @courses_as_teacher.collect {|c| [c.name, c.id]} , class:"form-control col-12" %>
+    </div>
+
+    <%= form.hidden_field :user_id,
+                          :value => current_user.id %>
+
+    <%= form.hidden_field :classroom_id,
+                          :value => @classroom.id %>
+
+    <%= form.hidden_field :schedule,
+                          :value => @schedule %>
+
+    <%= form.hidden_field :day,
+                          :value => @day %>
+
+    <%= form.hidden_field :event_type,
+                          :value => "Clases Particulares" %>
+
+
+    <div class="actions">
+      <%= form.submit "Organizar Evento", class: "btn btn-success"%>
+    </div>
+    </div>
+  </div>
+    <% end %>
+  <% end %>

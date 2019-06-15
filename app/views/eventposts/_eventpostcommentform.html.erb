@@ -1,0 +1,13 @@
+<%= form_with(model: eventpostcomment, local: true) do |form| %>
+
+
+    <%= form.text_field :content,
+                        :placeholder => "Escribe tu comentario" %>
+    <%= form.hidden_field :eventpost_id,
+                          :value => @eventpost.id %>
+    <%= form.hidden_field :user_id,
+                          :value => current_user.id %>
+    <%= form.hidden_field :rate,
+                          :value => 0 %>
+
+<% end %>

@@ -1,8 +1,5 @@
 <h1>Crear nuevo post para el evento</h1>
 
-<% @eventid = params[:event_id] %>
-<% @eventname = Event.find(params[:event_id]).title %>
-
 <%= render 'form', eventpost: @eventpost %>
 
 <%= link_to 'Back', eventposts_path %>

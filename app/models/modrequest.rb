@@ -1,6 +1,6 @@
 class Modrequest < ApplicationRecord
 
     belongs_to :course
-    has_one :user, dependent: :destroy
+    has_one :user
     
 end

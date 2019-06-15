@@ -14,6 +14,9 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
+    <!-- <link rel="stylesheet" href="https://bootswatch.com/4/united/bootstrap.css">
+    <link rel="stylesheet" href="https://bootswatch.com/_assets/css/custom.min.css"> -->
+
     <!-- Para la barra de búsqueda -->
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
@@ -28,15 +31,25 @@
 
   <body>
 
-    <% if notice %>
-    <p class="alert alert-success"><%= notice %></p>
+    <div class="wrapper">
+      <% if notice %>
+      <p class="alert alert-success"><%= notice %></p>
+      <% end %>
+      <% if alert %>
+    <!-- <p class="alert alert-danger"><%= alert %></p> -->
+    <div class="alert alert-danger alert-dismissible">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <strong><%= alert%> </strong>
+    </div>
     <% end %>
-    <% if alert %>
-    <p class="alert alert-danger"><%= alert %></p>
-    <% end %>
-    <%= render "layouts/header" %>
-    <%= yield %>
-    <%= render "layouts/footer" %>
+      <%= render "layouts/header" %>
+      
+      <%= yield %>
+
+      <!-- Just to make the footer right-->
+      <div class="push"></div>
+    </div>
+      <%= render "layouts/footer" %>
   </body>
 
 

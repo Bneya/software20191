@@ -1,0 +1,41 @@
+<!-- Botón para crear nuevo post -->
+<div class="text-left">
+  <a class= "btn btn-success btn-xs"></a>
+  <%= link_to ' Nuevo Post    ', {:controller => "eventposts",
+                                          :action => "new",
+                                          :event_id => @event.id},
+                                          class: "profile-edit-btn" %>
+</div>
+
+<hr>
+
+<div class="posts">
+
+  <% @event.eventposts.order(:id).each do |post| %>
+    <section class="well">
+      <div class="posttitle">
+        <%= link_to post.title.capitalize, post %>
+        <hr>
+      </div>
+
+      <div class="row">
+        <div class="col-md-8">
+          <%= strip_tags(post.content)[0..200] + " ..." %>
+        </div>
+        <div class="col-md-4">
+          <div class="text-right">
+            <p>Autor: <%= post.user.username %></p>
+            <p>Comentarios: <%= post.eventpostcomments.count %></p>
+            <li style="list-style: none;">
+              <i class="fa fa-thumbs-up like-label"></i> <%= post.get_likes.count %>
+              <i class="fa fa-thumbs-down dislike-label"></i> <%= post.get_dislikes.count %>
+            </li>
+          </div>
+        </div>
+      </div>
+    </section>
+  <hr>
+  <% end %>
+
+
+</div>

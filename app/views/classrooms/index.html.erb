@@ -1,37 +1,72 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Classrooms</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>Ubication</th>
-      <th>Campus</th>
-      <th>Rating noise</th>
-      <th>Rating disponibility</th>
-      <th>Rating sockets</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
 
-  <tbody>
-    <% @classrooms.each do |classroom| %>
-      <tr>
-        <td><%= classroom.title %></td>
-        <td><%= classroom.ubication %></td>
-        <td><%= classroom.campus_id %></td>
-        <td><%= classroom.rating_noise %></td>
-        <td><%= classroom.rating_disponibility %></td>
-        <td><%= classroom.rating_sockets %></td>
-        <td><%= link_to 'Show', classroom %></td>
-        <td><%= link_to 'Edit', edit_classroom_path(classroom) %></td>
-        <td><%= link_to 'Destroy', classroom, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
 
-<br>
+<div class= "h1">
+  <center><h1>Lista de Salas</h1></center>
+</div>
 
-<%= link_to 'New Classroom', new_classroom_path %>
+
+<center>
+
+  <div class="container">
+    <div class="row col-md-6 col-md-offset-2 custyle">
+      <table class="table table-striped custab">
+        <thead>
+        <tr>
+          <th class="text-center">ID</th>
+          <th class="text-center">Sala</th>
+          <th class="text-center">Campus</th>
+          <th class="text-center">Eventos</th>
+          <% if @is_connected || @is_admin %>
+            <th class = "text-center">Editar</th>
+            <th class = "text-center">Remover</th>
+          <% end %>
+
+        </tr>
+        </thead>
+
+        <% @classrooms.each do |classroom| %>
+          <tr>
+              <td class = "text-center"><%= classroom.id%></td>
+              <td class = "text-center">
+                <%= link_to classroom.title, classroom,
+                                              class: "btn",
+                                              method: :get %>
+              </td>
+              <td class = "text-center">
+                <a class= "btn btn-info btn-xs"><%= link_to classroom.campus.name, classroom.campus,
+                                                                class: "btn",
+                                                                method: :get %>
+              </td>
+              <td class = "text-center"><%= classroom.events.count %></td>
+            <% if @is_connected || @is_admin %>
+
+              <td class = "text-center">
+                <a class= "btn btn-warning btn-xs"><%= link_to "Editar", edit_classroom_path(classroom), :class => 'btn',
+                                                            method: :get%>
+              </td>
+
+              <td class = "text-center">
+                <a class= "btn btn-danger btn-xs"><%= link_to "Remover", classroom, method: :delete, :class => 'btn',
+                                                            data: {confirm: "Are you sure?"}%>
+              </td>
+            <%end%>
+
+          </tr>
+        <%end%>
+
+      </table>
+    </div>
+
+  </div>
+</center>
+
+<% if @is_connected && @is_admin %>
+  <a class= "btn btn-success btn-xs"><%= link_to "Nueva Sala", new_classroom_path, :class => 'btn' %>
+<% end %>

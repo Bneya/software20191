@@ -1,4 +1,18 @@
-
+<% def get_api_info
+     nasa_api = "https://api.nasa.gov/planetary/apod?api_key=#{ENV['NASA_API_KEY']}"
+     request_to_nasa_api = Net::HTTP.get(URI(nasa_api))
+     JSON.parse request_to_nasa_api
+   end
+%>
+<% def picture
+     nasa_info = get_api_info
+     if nasa_info['media_type'].eql?('video')
+      'https://source.unsplash.com/WEQbe2jBg40/600x1200'
+      else
+      nasa_info['url']
+      end
+   end
+%>
 
 
 

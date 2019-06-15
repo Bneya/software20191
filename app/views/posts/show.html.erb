@@ -53,6 +53,12 @@
                                                    :id => @post.id,
                                                    :method => :post},
                                                    {class: 'votes-btn dislike-btn'} %>
+                                <%= link_to 'Guardar Post', {:controller => 'saved_posts',
+                                :action => 'create_new',
+                                :post_id =>  @post.id,
+                                :user_id => current_user.id,
+                                :method => :post}
+                                            %>
                                 <i class="fa fa-thumbs-up like-label"></i> <%= @post.get_likes.size %>
                                 <i class="fa fa-thumbs-down dislike-label"></i> <%= @post.get_dislikes.size %>
                               </div>
