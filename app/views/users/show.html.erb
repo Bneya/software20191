@@ -35,7 +35,7 @@
                                         <a class="nav-link" id="events-tab" data-toggle="tab" href="#events" role="tab" aria-controls="events" aria-selected="false">Events</a>
                                     </li>
                               <li class="nav-item">
-                                <a class="nav-link" id="saved-posts-tab" data-toggle="tab" href="#saved_posts" role="tab" aria-controls="saved" aria-selected="false">Saved Posts</a>
+                                <a class="nav-link" id="posts-tab" data-toggle="tab" href="#posts" role="tab" aria-controls="posts" aria-selected="false">Saved Posts</a>
                               </li>
                             </ul>
                         </div>
@@ -127,14 +127,14 @@
                                     <% end %>
                                     </p>
                             </div>
-                          <div class="tab-pane fade" id="savedposts" role="tabpanel" aria-labelledby="saved-posts-tab">
+                          <div class="tab-pane fade" id="posts" role="tabpanel" aria-labelledby="posts-tab">
                             <%SavedPost.where(user_id: @user.id).distinct.pluck(:post_id).each do |post| %>
                               <div class="row">
                                 <div class="col-md-6">
-                                  <label><%=Post.find(post).name%></label>
+                                  <label><%=Post.find(post).title%></label>
                                 </div>
                                 <div class="col-md-6">
-                                  <%= link_to "Visitar post", posts_path(post) %>
+                                  <%= link_to "Visitar post", post_path(post) %>
                                 </div>
 
                               </div>

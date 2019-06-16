@@ -36,6 +36,15 @@ class PostsController < ApplicationController
   def edit
   end
 
+  def save_post
+    SavedPost.create(user_id: params[:user_id], post_id: params[:post_id])
+    #redirect_to post_path(params[:post_id])
+    respond_to do |format|
+      format.html {redirect_to Post.find(params[:post_id]), notice: "Post was successfully saved"}
+      format.json {render :show, status: :ok, location: post} #redirect_to Course.find(params[:course_id])
+    end
+  end
+
   # POST /posts
   # POST /posts.json
   def create

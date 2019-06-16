@@ -60,6 +60,8 @@ Rails.application.routes.draw do
   # Para dar likedislikes
   post 'posts/like'
   post 'posts/dislike'
+  post 'posts/save_post'
+
   post 'postcomments/like'
   post 'postcomments/dislike'
   post 'saved_posts/create_new'
