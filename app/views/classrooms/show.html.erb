@@ -282,9 +282,11 @@
                    <div class="create_new_comment">
 
                     <!-- current #{user} avatar -->
+                    <% if current_user %>
                     <div class="user_avatar">
                       <img src=<%= current_user.gravatar_url(:default => "wavatar", :size=>120) %> >
                     </div><!-- the input field --><div class="input_comment">
+                    <% end %>
 
                       <% if @is_connected %>
                         <%= render 'classroomcommentform', classroomcomment: @classroomcomment %>
