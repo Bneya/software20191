@@ -251,6 +251,8 @@
       <div class="row">
         <div class="col-md-12">
           <div class="tab-content profile-tab" id="myTabContent">
+
+            <% if current_user %>
             <!-- Eventos de la Sala -->
             <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
               <% Event.where(classroom_id: @classroom.id).each do |event| %>
@@ -271,6 +273,9 @@
               <% end %>
               </p>
             </div>
+            <% else %>
+              Debes estar conectado para ver los eventos
+            <% end %>
             <!-- Comentarios de la sala -->
             <div class="tab-pane fade" id="events" role="tabpanel" aria-labelledby="events-tab">
 
