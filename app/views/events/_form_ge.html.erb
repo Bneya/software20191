@@ -23,25 +23,25 @@
     <div class="jumbotron col-5" >
     <legend><b> Organizando Grupo de Estudio </b></legend>
     <div class="form-group row">
-      <%= form.label "Organizador" , class:"col-form-label col-6"%>
+      <%= form.label "Organizador" , class:"col-form-label col-5"%>
       <%= form.text_field :placeholder, disabled: true, value: @user_name,
                                                  class: "col-6 form-control-plaintext"%>
     </div>
 
     <div class="form-group row">
-      <%= form.label "Sala" , class:"col-form-label col-6"%>
+      <%= form.label "Sala" , class:"col-form-label col-5"%>
       <%= form.text_field :placeholder, disabled: true, value: @classroom.title,
                                         class:"form-control-plaintext col-6"  %>
     </div>
 
     <div class="form-group row">
-      <%= form.label "Fecha" , class:"col-form-label col-6"%>
+      <%= form.label "Fecha" , class:"col-form-label col-5"%>
       <%= form.text_field :placeholder, disabled: true, value: @date_text,
                                         class:"form-control-plaintext col-6"%>
     </div>
 
     <div class="form-group row">
-      <%= form.label "Horario" , class:"col-form-label col-6"%>
+      <%= form.label "Horario" , class:"col-form-label col-5"%>
       <%= form.text_field :placeholder,  disabled: true, value: @modules[@schedule.to_i-1] , class:"form-control-plaintext col-6"%>
     </div>
 
@@ -49,19 +49,25 @@
 
     <div class="field">
       <%= form.label "Nombre del evento" %>
-      <%= form.text_field :title,
-                          id: :title_name , class:"form-control col-12"%>
+      <div class="row">
+        <%= form.text_field :title,
+                            id: :title_name , class:"form-control col-10 offset-md-1"%>
+      </div>
+
     </div>
 
 
     <div class="field">
       <%= form.label "Descripcion del evento" %>
-      <%= form.text_area :description, id: :event_description , class:"form-control col-12" %>
+      <%= form.text_area :description, id: :event_description , class:"form-control col-10 offset-md-1" %>
     </div>
 
     <div class="field">
       <%= form.label "Limite de alumnos" %>
-      <%= form.number_field :max_users, id: :event_max_users , class:"form-control col-12" %>
+      <div class="row">
+        <%= form.number_field :max_users, id: :event_max_users , class:"form-control col-10 offset-md-1" %>
+      </div>
+
     </div>
 
     <div class="field">

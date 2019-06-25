@@ -1,27 +1,48 @@
 body {
   font-size: 13px;
+  text-decoration:none;
+
 }
 @media (max-width: 768px) {
   body {
     font-size: 12px;
+    text-decoration:none;
+
   }
+  text-decoration:none;
+
 }
 
 .chat_list .list-group-item {
   padding: 5px 4px;
   min-height: 50px;
+  text-decoration:none;
+
 }
 @media (max-width: 768px) {
   .chat_list .list-group-item {
     min-height: inherit;
+    text-decoration:none;
+
   }
 }
 .chat_list .list-group-item-text {
   word-wrap: break-word;
   display: flex;
   overflow: auto;
+  text-decoration:none;
+
 }
 .chat_list .pull-left {
   width: 55px;
   text-align: center;
+  text-decoration:none;
+
+}
+.no_underline {
+  text-decoration: none;
+}
+
+a{
+  text-decoration: none;
 }

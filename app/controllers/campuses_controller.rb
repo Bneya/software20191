@@ -21,6 +21,13 @@ class CampusesController < ApplicationController
   def edit
   end
 
+  def x_coor
+    @campus.location_map.split('~')[0].to_f
+  end
+  def y_coor
+    @campus.location_map.split('~')[1].to_f
+  end
+
   # POST /campuses
   # POST /campuses.json
   def create

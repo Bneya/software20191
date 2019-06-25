@@ -7,7 +7,7 @@
           var map = new Microsoft.Maps.Map('#myMap', {});
           map.setView({
               mapTypeId: Microsoft.Maps.MapTypeId.aerial,
-              center: new Microsoft.Maps.Location(<%= @campus.location_map %>),
+              center: new Microsoft.Maps.Location(<%=@campus.location_map.split('~')[0].to_f%>,<%=@campus.location_map.split('~')[1].to_f %>),
               zoom: 15,
 
           });
@@ -15,6 +15,7 @@
   </script>
   <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=AiV3nq3V5FZeLRFcIjha7ckayj0DzNNhtLD5wjkgvhVrki4Fa_ZJmptDU0qm5wcp' async defer></script>
 </head>
+
 <style type="text/css">
   .emp-profile {
     padding: 3%;
@@ -140,6 +141,7 @@
   <!------ Include the above in your HEAD tag ---------->
 </head>
 
+
 <div class="container emp-profile">
   <form method="post">
     <div class="row">
@@ -211,14 +213,9 @@
             <% end %>
             </p>
           </div>
-          <div class="tab-pane fade" id="map" role="tabpanel" aria-labelledby="map-tab">
-            <div class="col-md-4">
-              <div class="profile-img">
-                <iframe width="500" height="400" frameborder="0" src="https://www.bing.com/maps/embed?h=400&w=500&cp=-33.49904135475157~-70.61054420471193&lvl=15&typ=d&sty=r&src=SHELL&FORM=MBEDV8" scrolling="no">
-                </iframe>
-                <div style="white-space: nowrap; text-align: center; width: 500px; padding: 6px 0;">
-                </div>
-              </div>
+          <div class="tab-pane fade" id="map" role="tabpanel" aria-labelledby="map-tab" style="size: auto">
+              <div id="myMap" style="position:relative;width:500px;height:300px;"></div>
+
           </div>
 
         </div>

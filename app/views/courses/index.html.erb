@@ -19,7 +19,7 @@
       <table class="table table-striped custab">
         <thead>
         <tr>
-          <th class="text-center">ID del curso</th>
+          <th class="text-center">Campus</th>
           <th class="text-center">Nombre del curso</th>
           <% if current_user %>
             <%if ((current_user.has_role? :mod, @course) || (current_user.has_role? :admin ))%>
@@ -33,7 +33,7 @@
 
         <% @courses.each do |course| %>
           <tr>
-            <td class = "text-center"><%= course.id%></td>
+            <td class = "text-center"><%= course.campus.name%></td>
             <td class = "text-center"><%= link_to course.name, course_path(course) %></td>
             <% if current_user %>
               <%if ((current_user.has_role? :mod, @course) || (current_user.has_role? :admin ))%>

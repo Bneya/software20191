@@ -69,7 +69,8 @@ Rails.application.routes.draw do
   # Para comentarios de posts
   # post 'postcomments/create'
   resources :postcomments
-
+get "campuses/x_coor"
+  get "campuses/y_coor"
   # Schedule de las classrooms
   get "/pages/schedule", to: "pages#schedule", as: "schedule"
   post "/pages/schedule", to: "pages#schedule", as: "schedule_nav"
