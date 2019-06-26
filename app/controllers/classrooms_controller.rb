@@ -24,7 +24,9 @@ class ClassroomsController < ApplicationController
       @isadmin = (current_user.has_role? :admin)
       @classroomcomment = Classroomcomment.new
     end
-
+    # @event.day.to_i < Date.strptime(Time.now.strftime("%B %d, %Y"), "%B %d, %Y").yday
+    @actual_day = Date.strptime(Time.now.strftime("%B %d, %Y"), "%B %d, %Y").yday
+    @available_events = @classroom.events.where("day >= %d" % [@actual_day])
     @noise_like = @classroom.get_upvotes vote_scope: "noise"
     @noise_dislike = @classroom.get_downvotes vote_scope: "noise"
     @disponibility_like = @classroom.get_upvotes vote_scope: "disponibility"
