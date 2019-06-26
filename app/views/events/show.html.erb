@@ -1,4 +1,50 @@
-<% if @event.event_type == "Grupo de Estudio" %>
+<style type="text/css">
+  .bg-image {
+    background-image: url("https://corporate.nexway.com/wp-content/uploads/2017/09/background-MeetTheExperts.jpg");
+    background-size: cover;
+    background-position: center;
+  }
+  .event-title{
+    display: inline-block;
+-webkit-box-sizing: content-box;
+-moz-box-sizing: content-box;
+box-sizing: content-box;
+float: none;
+z-index: auto;
+width: auto;
+height: auto;
+position: relative;
+cursor: default;
+opacity: 1;
+margin: 0;
+padding: 13px;
+overflow: visible;
+border: none;
+-webkit-border-radius: 20px / 30px;
+border-radius: 20px / 30px;
+font: normal normal bold 22px/1 Arial, Helvetica, sans-serif;
+color: black;
+text-align: center;
+-o-text-overflow: ellipsis;
+text-overflow: ellipsis;
+background: rgba(94,198,219,0.53);
+-webkit-box-shadow: 4px 4px 6px 1px rgba(0,0,0,0.4) ;
+box-shadow: 4px 4px 6px 1px rgba(0,0,0,0.4) ;
+text-shadow: none;
+-webkit-transition: none;
+-moz-transition: none;
+-o-transition: none;
+transition: none;
+-webkit-transform: none;
+transform: none;
+-webkit-transform-origin: 50% 50% 0;
+transform-origin: 50% 50% 0;
+  }
+</style>
+
+<% if @past_event %>
+  Este evento ya ocurrió
+<% elsif @event.event_type == "Grupo de Estudio" %>
   <%= render "show_ge" %>
 <% elsif @event.event_type == "Buscar Profesor Particular" %>
   <%= render "show_bc" %>

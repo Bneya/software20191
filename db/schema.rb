@@ -50,9 +50,6 @@ ActiveRecord::Schema.define(version: 20190615175257) do
     t.text "title"
     t.text "ubication"
     t.integer "campus_id"
-    t.integer "rating_noise"
-    t.integer "rating_disponibility"
-    t.integer "rating_sockets"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -107,7 +104,7 @@ ActiveRecord::Schema.define(version: 20190615175257) do
     t.integer "schedule"
     t.integer "day"
     t.string "event_type"
-    t.integer "actual_users"
+    t.integer "user_id"
     t.integer "max_users"
     t.integer "price"
     t.datetime "created_at", null: false

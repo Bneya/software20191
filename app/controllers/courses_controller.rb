@@ -73,19 +73,13 @@ class CoursesController < ApplicationController
 
 
   def modrequest
-    if Modrequest.where(:user_id => params[:user_id], :course_id => params[:course_id]).nil?
       Modrequest.create(user_id: params[:user_id], course_id: params[:course_id])
       respond_to do |format|
         format.html {redirect_to Course.find(params[:course_id]), notice: "Mod Request was successfully sent"}
         format.json {render :show, status: :ok, location: @course} #redirect_to Course.find(params[:course_id])
       end
-    else
-      respond_to do |format|
-        format.html {redirect_to Course.find(params[:course_id]), notice: "Mod Request was already sent"}
-        format.json {render json: @course.errors, status: :unprocessable_entity} #redirect_to Course.find(params[:course_id])
-      end
-    end
   end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_course

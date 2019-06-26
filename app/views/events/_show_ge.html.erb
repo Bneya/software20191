@@ -16,6 +16,7 @@
   <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=AiV3nq3V5FZeLRFcIjha7ckayj0DzNNhtLD5wjkgvhVrki4Fa_ZJmptDU0qm5wcp' async defer></script>
 </head>
 <style type="text/css">
+
   .emp-profile {
     padding: 3%;
     margin-top: 3%;
@@ -142,13 +143,14 @@
   <!------ Include the above in your HEAD tag ---------->
 </head>
 
-<div class="container emp-profile">
+<body class="bg-image">
+  <div class="container emp-profile">
 
     <!-- Perfil -->
     <div class="col-md-4">
       <!-- TITULO DEL PERFIL -->
       <div class="text-center">
-        <h2>
+        <h2 class="event-title">
         <%= @event.title.capitalize %>
         </h2>
       </div>
@@ -306,4 +308,5 @@
         </div>
       </div>
     </div>
-</div>
+  </div>
+</body>

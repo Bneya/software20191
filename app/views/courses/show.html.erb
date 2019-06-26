@@ -23,8 +23,6 @@
 <% if connected %><% isadmin = (current_user.has_role? :admin) %><% end %>
 <% if connected %><% ismod = (current_user.has_role? :mod, Course.find(@course.id)) %><% end %>
 
-    <p id="notice"><%= notice %></p>
-
 <div class="courseshowbody">
 </div>
 
@@ -167,15 +165,15 @@
                 <div class="bhoechie-tab-content">
                     <center>
 
-                        <div class="row">
-                          <div class="col-6">
-                            <div class="subtitle center"> Lista de profesores del curso: </div>
+                        <div class="row" style="border: 1px solid black;">
+                          <div class="col-6" style="border-right: 1px solid black;">
+                            <div class="subtitle center" style="font-weight: bold;"> Lista de profesores del curso: </div>
                             <% Suscription.where(course_id: @course.id, sbtype: "teacher").each do |prof| %>
                               <%= User.find(prof.user_id).username %><br>
                             <% end %>
                           </div>
                           <div class="col-6">
-                            <div class="subtitle center"> Lista de alumnos del curso: </div>
+                            <div class="subtitle center" style="font-weight: bold;"> Lista de alumnos del curso: </div>
                             <% Suscription.where(course_id: @course.id, sbtype: "alumno").each do |prof| %>
                               <%= User.find(prof.user_id).username %><br>
                             <% end %>

@@ -142,174 +142,176 @@
   <!------ Include the above in your HEAD tag ---------->
 </head>
 
-<div class="container emp-profile">
+<body class="bg-image">
+  <div class="container emp-profile">
 
-    <!-- Perfil -->
-    <div class="col-md-4">
-      <!-- TITULO DEL PERFIL -->
-      <div class="text-center">
-        <h2>
-        <%= @event.title.capitalize %>
-        </h2>
-      </div>
-      <!-- DESCRIPCION DEL PERFIL -->
-      <div class="row">
-        <div class="col-md-12">
-          <div class="row col-md-12 custyle">
-            <table class="table table-striped custab">
-              <thead>
-              <tr>
-                <th class="text-center"><strong>Profesor:</strong></th>
-                <th class="text-center"><%= @author_name %></th>
-              </tr>
-              </thead>
-              <tr>
-                <th class="text-center"><strong>Precio:</strong></th>
-                <th class="text-center">$ <%= @event.price %></th>
-              </tr>
-              <tr>
-                  <td class = "text-center"><strong>Sala:</strong></td>
-                  <td class = "text-center"><a class= "btn btn-info btn-xs"><%= link_to @event.classroom.title, @event.classroom, :class => 'btn' %></td>
-              </tr>
-              <tr>
-                  <td class = "text-center"><strong>Curso:</strong></td>
-                  <td class = "text-center"><a class= "btn btn-info btn-xs"><%= link_to @course.name, @course, :class => 'btn' %></td>
-              </tr>
-              <tr>
-                  <td class = "text-center"><strong>Fecha:</strong></td>
-                  <td class = "text-center"><%= @date_text %></td>
-              </tr>
-              <tr>
-                  <td class = "text-center"><strong>Horario:</strong></td>
-                  <td class = "text-center"><%= @modules[@event.schedule-1] %></td>
-              </tr>
-              <tr>
-                  <td class = "text-center"><strong>Inscritos:</strong></td>
-                  <td class = "text-center"><%= @event_count %> / <%= @event.max_users %></td>
-              </tr>
-            </table>
-          </div>
+      <!-- Perfil -->
+      <div class="col-md-4">
+        <!-- TITULO DEL PERFIL -->
+        <div class="text-center">
+          <h2 class="event-title">
+          <%= @event.title.capitalize %>
+          </h2>
         </div>
-      </div>
-      <!-- BOTONES -->
-      <div class="row">
-        <div class="col-md-5">
-          <a class= "btn btn-info btn-xs"></a>
-          <%= link_to "Ver Horarios", schedule_path({day: @event.day,
-                                                      campus_id: @event.classroom.campus_id}),
-                                                      class: "profile-edit-btn" %>
-        </div>
-        <% if @is_connected and @is_admin %>
-        <div class="col-md-3">
-          <a class= "btn btn-warning btn-xs"></a>
-          <%= link_to "Editar", edit_event_path(@event), class: "profile-edit-btn" %>
-        </div>
-        <div class="col-md-4">
-          <a class= "btn btn-danger btn-xs"></a>
-          <%= link_to "Eliminar", @event, method: :delete,
-                              data: { confirm: 'Are you sure?' }, class: "profile-edit-btn" %>
-        </div>
-        <%end %>
-      </div>
-    </div>
-
-    <!-- Opciones del perfil (Pestañas) -->
-    <div class="col-md-8">
-      <!-- Header de las pestañas -->
-      <div class="row">
-        <div class="col-md-12">
-          <div class="profile-head">
-            <ul class="nav nav-tabs" id="myTab" role="tablist">
-              <li class="nav-item">
-                <a class="nav-link" id="description-tab" data-toggle="tab" href="#description" role="tab" aria-controls="description" aria-selected="false">Descripción</a>
-              </li>
-              <% if @is_connected %>
-              <li class="nav-item">
-                <a class="nav-link" id="users-tab" data-toggle="tab" href="#users" role="tab" aria-controls="users" aria-selected="false">Inscritos</a>
-              </li>
-              <% end %>
-              <li class="nav-item">
-                <a class="nav-link" id="posts-tab" data-toggle="tab" href="#posts" role="tab" aria-controls="posts" aria-selected="false">Posts</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <!-- Informacion de las pestañas -->
-      <div class="row">
-        <div class="col-md-12">
-          <div class="tab-content profile-tab" id="myTabContent">
-            <!-- Descripcion -->
-            <div class="tab-pane fade" id="description" role="tabpanel" aria-labelledby="description-tab">
-              <h4 class="text-info"><%= @event.event_type.capitalize %></h4>
-              <p><%= @event.description %> </p>
+        <!-- DESCRIPCION DEL PERFIL -->
+        <div class="row">
+          <div class="col-md-12">
+            <div class="row col-md-12 custyle">
+              <table class="table table-striped custab">
+                <thead>
+                <tr>
+                  <th class="text-center"><strong>Profesor:</strong></th>
+                  <th class="text-center"><%= @author_name %></th>
+                </tr>
+                </thead>
+                <tr>
+                  <th class="text-center"><strong>Precio:</strong></th>
+                  <th class="text-center">$ <%= @event.price %></th>
+                </tr>
+                <tr>
+                    <td class = "text-center"><strong>Sala:</strong></td>
+                    <td class = "text-center"><a class= "btn btn-info btn-xs"><%= link_to @event.classroom.title, @event.classroom, :class => 'btn' %></td>
+                </tr>
+                <tr>
+                    <td class = "text-center"><strong>Curso:</strong></td>
+                    <td class = "text-center"><a class= "btn btn-info btn-xs"><%= link_to @course.name, @course, :class => 'btn' %></td>
+                </tr>
+                <tr>
+                    <td class = "text-center"><strong>Fecha:</strong></td>
+                    <td class = "text-center"><%= @date_text %></td>
+                </tr>
+                <tr>
+                    <td class = "text-center"><strong>Horario:</strong></td>
+                    <td class = "text-center"><%= @modules[@event.schedule-1] %></td>
+                </tr>
+                <tr>
+                    <td class = "text-center"><strong>Inscritos:</strong></td>
+                    <td class = "text-center"><%= @event_count %> / <%= @event.max_users %></td>
+                </tr>
+              </table>
             </div>
-            <!-- Mostrar usuarios -->
-            <% if @is_connected %>
-            <div class="tab-pane fade" id="users" role="tabpanel" aria-labelledby="users-tab">
-              <div class="container">
-                <!-- Usuarios -->
-                <section class="well col-md-6">
-                  <div class="posttitle center"><strong> Lista de Inscritos: </strong></div>
-                  <hr>
-                  <% Eventsubsription.where(event_id: @event.id).each do |sub| %>
-                    <div class="userlistcol center">
-                        <% if current_user.id == sub.user_id %><b><% end %>
-                          <% if User.find(sub.user_id).realname == nil %>
-                            <%= User.find(sub.user_id).username %>
-                          <% else %>
-                            <%= User.find(sub.user_id).realname %>
-                          <% end %>
-                        <% if current_user.id == sub.user_id %></b><% end %>
-                    </div>
-                  <% end %>
-                  <!-- botones -->
-                  <hr>
-                  <div class="col">
-                    <% if !(@is_subscriptor) && !(@is_author) && @course_sub && !(@event_full)%>
-                    <div class="text-right">
-                      <a class= "btn btn-success btn-xs"></a>
-                      <%= button_to ' Unirse    ', {:controller => "events",
-                                                             :action => "suscribe",
-                                                             :id => @event.id,
-                                                             :user_id => current_user.id,
-                                                             :method => :post},
-                                                              class: "profile-edit-btn" %>
-                    </div>
-                    <% elsif @is_subscriptor && !(@is_author) && @course_sub && !(@event_full)%>
-                    <div class="text-right">
-                      <a class= "btn btn-danger btn-xs"></a>
-                      <%= button_to ' Abandonar       ', {:controller => "events",
-                                                                    :action => "desuscribe",
-                                                                    :id => @event.id,
-                                                                    :user_id => current_user.id,
-                                                                    :method => :post},
-                                                                    class: "profile-edit-btn" %>
-                    </div>
-                    <% elsif @is_subscriptor %>
-                      <p class="text-success">Estas inscrito</p>
-                    <% elsif @is_teacher %>
-                      <p class="text-danger">Eres profesor de este curso</p>
-                    <% elsif !(@course_sub)%>
-                      <p class="text-danger">No eres alumno de este curso</p>
-                    <% elsif @event_full %>
-                      <p class="text-danger">El Evento esta lleno</p>
+          </div>
+        </div>
+        <!-- BOTONES -->
+        <div class="row">
+          <div class="col-md-5">
+            <a class= "btn btn-info btn-xs"></a>
+            <%= link_to "Ver Horarios", schedule_path({day: @event.day,
+                                                        campus_id: @event.classroom.campus_id}),
+                                                        class: "profile-edit-btn" %>
+          </div>
+          <% if @is_connected and @is_admin %>
+          <div class="col-md-3">
+            <a class= "btn btn-warning btn-xs"></a>
+            <%= link_to "Editar", edit_event_path(@event), class: "profile-edit-btn" %>
+          </div>
+          <div class="col-md-4">
+            <a class= "btn btn-danger btn-xs"></a>
+            <%= link_to "Eliminar", @event, method: :delete,
+                                data: { confirm: 'Are you sure?' }, class: "profile-edit-btn" %>
+          </div>
+          <%end %>
+        </div>
+      </div>
+
+      <!-- Opciones del perfil (Pestañas) -->
+      <div class="col-md-8">
+        <!-- Header de las pestañas -->
+        <div class="row">
+          <div class="col-md-12">
+            <div class="profile-head">
+              <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item">
+                  <a class="nav-link" id="description-tab" data-toggle="tab" href="#description" role="tab" aria-controls="description" aria-selected="false">Descripción</a>
+                </li>
+                <% if @is_connected %>
+                <li class="nav-item">
+                  <a class="nav-link" id="users-tab" data-toggle="tab" href="#users" role="tab" aria-controls="users" aria-selected="false">Inscritos</a>
+                </li>
+                <% end %>
+                <li class="nav-item">
+                  <a class="nav-link" id="posts-tab" data-toggle="tab" href="#posts" role="tab" aria-controls="posts" aria-selected="false">Posts</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <!-- Informacion de las pestañas -->
+        <div class="row">
+          <div class="col-md-12">
+            <div class="tab-content profile-tab" id="myTabContent">
+              <!-- Descripcion -->
+              <div class="tab-pane fade" id="description" role="tabpanel" aria-labelledby="description-tab">
+                <h4 class="text-info"><%= @event.event_type.capitalize %></h4>
+                <p><%= @event.description %> </p>
+              </div>
+              <!-- Mostrar usuarios -->
+              <% if @is_connected %>
+              <div class="tab-pane fade" id="users" role="tabpanel" aria-labelledby="users-tab">
+                <div class="container">
+                  <!-- Usuarios -->
+                  <section class="well col-md-6">
+                    <div class="posttitle center"><strong> Lista de Inscritos: </strong></div>
+                    <hr>
+                    <% Eventsubsription.where(event_id: @event.id).each do |sub| %>
+                      <div class="userlistcol center">
+                          <% if current_user.id == sub.user_id %><b><% end %>
+                            <% if User.find(sub.user_id).realname == nil %>
+                              <%= User.find(sub.user_id).username %>
+                            <% else %>
+                              <%= User.find(sub.user_id).realname %>
+                            <% end %>
+                          <% if current_user.id == sub.user_id %></b><% end %>
+                      </div>
                     <% end %>
-                  </div>
-                </section>
+                    <!-- botones -->
+                    <hr>
+                    <div class="col">
+                      <% if !(@is_subscriptor) && !(@is_author) && @course_sub && !(@event_full)%>
+                      <div class="text-right">
+                        <a class= "btn btn-success btn-xs"></a>
+                        <%= button_to ' Unirse    ', {:controller => "events",
+                                                               :action => "suscribe",
+                                                               :id => @event.id,
+                                                               :user_id => current_user.id,
+                                                               :method => :post},
+                                                                class: "profile-edit-btn" %>
+                      </div>
+                      <% elsif @is_subscriptor && !(@is_author) && @course_sub && !(@event_full)%>
+                      <div class="text-right">
+                        <a class= "btn btn-danger btn-xs"></a>
+                        <%= button_to ' Abandonar       ', {:controller => "events",
+                                                                      :action => "desuscribe",
+                                                                      :id => @event.id,
+                                                                      :user_id => current_user.id,
+                                                                      :method => :post},
+                                                                      class: "profile-edit-btn" %>
+                      </div>
+                      <% elsif @is_subscriptor %>
+                        <p class="text-success">Estas inscrito</p>
+                      <% elsif @is_teacher %>
+                        <p class="text-danger">Eres profesor de este curso</p>
+                      <% elsif !(@course_sub)%>
+                        <p class="text-danger">No eres alumno de este curso</p>
+                      <% elsif @event_full %>
+                        <p class="text-danger">El Evento esta lleno</p>
+                      <% end %>
+                    </div>
+                  </section>
+                </div>
+              </div>
+              <% end %>
+              <!-- Mostrar Posts -->
+              <div class="tab-pane fade" id="posts" role="tabpanel" aria-labelledby="posts-tab">
+                <% if @is_subscriptor %>
+                  <%= render "form_posts" %>
+                <% else %>
+                  <p class="text-danger">No estas suscrito<p>
+                <% end %>
               </div>
             </div>
-            <% end %>
-            <!-- Mostrar Posts -->
-            <div class="tab-pane fade" id="posts" role="tabpanel" aria-labelledby="posts-tab">
-              <% if @is_subscriptor %>
-                <%= render "form_posts" %>
-              <% else %>
-                <p class="text-danger">No estas suscrito<p>
-              <% end %>
-            </div>
           </div>
         </div>
       </div>
-    </div>
-</div>
+  </div>
+</body>

@@ -14,6 +14,10 @@ class EventsController < ApplicationController
   # GET /events/1
   # GET /events/1.json
   def show
+    @past_event = @event.day.to_i < Date.strptime(Time.now.strftime("%B %d, %Y"), "%B %d, %Y").yday
+    if @past_event
+      redirect_to schedule_path, alert: "El evento ya ocurrió"
+    end
     @is_connected = current_user
     if @is_connected
       @is_admin = (current_user.has_role? :admin)

@@ -3,19 +3,25 @@
   <title></title>
   <meta charset="utf-8"/>
   <script type='text/javascript'>
-      function GetMap() {
-          var map = new Microsoft.Maps.Map('#myMap', {});
-          map.setView({
-              mapTypeId: Microsoft.Maps.MapTypeId.aerial,
-              center: new Microsoft.Maps.Location(<%= @classroom.campus.location_map %>),
-              zoom: 15,
+    function GetMap() {
+        var map = new Microsoft.Maps.Map('#myMap', {});
+        map.setView({
+            mapTypeId: Microsoft.Maps.MapTypeId.aerial,
+            center: new Microsoft.Maps.Location(<%=@classroom.campus.location_map.split('~')[0].to_f%>,<%=@classroom.campus.location_map.split('~')[1].to_f %>),
+            zoom: 15,
 
-          });
+        });
       }
   </script>
   <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=AiV3nq3V5FZeLRFcIjha7ckayj0DzNNhtLD5wjkgvhVrki4Fa_ZJmptDU0qm5wcp' async defer></script>
 </head>
 <style type="text/css">
+  .bg-image {
+    background-image: url("https://ak3.picdn.net/shutterstock/videos/17667763/thumb/7.jpg");
+    background-size: cover;
+    background-position: center;
+  }
+
   .emp-profile {
     padding: 3%;
     margin-top: 3%;
@@ -129,10 +135,46 @@
     font-weight: 400;
     color: #000000;
   }
+
+  .room-name{
+    display: inline-block;
+-webkit-box-sizing: content-box;
+-moz-box-sizing: content-box;
+box-sizing: content-box;
+float: none;
+z-index: auto;
+width: auto;
+height: auto;
+position: relative;
+cursor: default;
+opacity: 1;
+margin: 0;
+padding: 13px;
+overflow: visible;
+border: none;
+-webkit-border-radius: 20px / 30px;
+border-radius: 20px / 30px;
+font: normal normal bold 22px/1 Arial, Helvetica, sans-serif;
+color: black;
+text-align: center;
+-o-text-overflow: ellipsis;
+text-overflow: ellipsis;
+background: rgba(94,115,219,0.53);
+-webkit-box-shadow: 4px 4px 6px 1px rgba(0,0,0,0.4) ;
+box-shadow: 4px 4px 6px 1px rgba(0,0,0,0.4) ;
+text-shadow: none;
+-webkit-transition: none;
+-moz-transition: none;
+-o-transition: none;
+transition: none;
+-webkit-transform: none;
+transform: none;
+-webkit-transform-origin: 50% 50% 0;
+transform-origin: 50% 50% 0;
+          }
 </style>
 
 <head>
-
   <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
   <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -142,314 +184,310 @@
   <!------ Include the above in your HEAD tag ---------->
 </head>
 
-<div class="container emp-profile">
+<body class="bg-image">
+  <div class="container emp-profile">
 
-    <div class="col-md-4">
-      <div class="text-center">
-        <h2>
-        <%= @classroom.title.capitalize %>
-        </h2>
-      </div>
-      <div class="row">
-        <div class="col-md-12">
-          <div class="row col-md-12 custyle">
-            <table class="table table-striped custab">
-              <thead>
-              <tr>
-                <th class="text-center"><strong>Sala:</strong></th>
-                <th class="text-center"><%= @classroom.title %></th>
-              </tr>
-              </thead>
-              <tr>
-                  <td class = "text-center"><strong>Ubicacion:</strong></td>
-                  <td class = "text-center"><%= @classroom.ubication %></td>
-              </tr>
-              <tr>
-                  <td class = "text-center"><strong>Campus:</strong></td>
-                  <td class = "text-center"><a class= "btn btn-info btn-xs"><%= link_to @classroom.campus.name, @classroom.campus, :class => 'btn' %></td>
-              </tr>
-              <tr>
-                  <td class = "text-center"><strong>Calificaciones:</strong></td>
-                  <td class = "text-center"></td>
-              </tr>
-              <tr>
-                  <td class = "text-center">Tranquilidad</td>
-                  <td class = "text-center">
-                    <li style="list-style: none;">
-                      <i class="fa fa-thumbs-up like-label"></i> <%= @noise_like.size %>
-                      <i class="fa fa-thumbs-down dislike-label"></i> <%= @noise_dislike.size %>
-                    </li>
-                  </td>
-              </tr>
-              <tr>
-                  <td class = "text-center">Disponibilidad</td>
-                  <td class = "text-center">
-                    <li style="list-style: none;">
-                      <i class="fa fa-thumbs-up like-label"></i><%= @disponibility_like.size %>
-                      <i class="fa fa-thumbs-down dislike-label"></i> <%= @disponibility_dislike.size %>
-                    </li>
-                  </td>
-              </tr>
-              <tr>
-                  <td class = "text-center">Enchufes</td>
-                  <td class = "text-center">
-                    <li style="list-style: none;">
-                      <i class="fa fa-thumbs-up like-label"></i> <%= @sockets_like.size %>
-                      <i class="fa fa-thumbs-down dislike-label"></i> <%= @sockets_dislike.size %>
-                    </li>
-                  </td>
-              </tr>
-            </table>
+      <div class="col-md-4">
+        <div class="text-center">
+          <h2 class="room-name">
+          <%= @classroom.title.capitalize %>
+          </h2>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="row col-md-12 custyle">
+              <table class="table table-striped custab">
+                <thead>
+                <tr>
+                  <th class="text-center"><strong>Sala:</strong></th>
+                  <th class="text-center"><%= @classroom.title %></th>
+                </tr>
+                </thead>
+                <tr>
+                    <td class = "text-center"><strong>Ubicacion:</strong></td>
+                    <td class = "text-center"><%= @classroom.ubication %></td>
+                </tr>
+                <tr>
+                    <td class = "text-center"><strong>Campus:</strong></td>
+                    <td class = "text-center"><a class= "btn btn-info btn-xs"><%= link_to @classroom.campus.name, @classroom.campus, :class => 'btn' %></td>
+                </tr>
+                <tr>
+                    <td class = "text-center"><strong>Calificaciones:</strong></td>
+                    <td class = "text-center"></td>
+                </tr>
+                <tr>
+                    <td class = "text-center">Tranquilidad</td>
+                    <td class = "text-center">
+                      <li style="list-style: none;">
+                        <i class="fa fa-thumbs-up like-label"></i> <%= @noise_like.size %>
+                        <i class="fa fa-thumbs-down dislike-label"></i> <%= @noise_dislike.size %>
+                      </li>
+                    </td>
+                </tr>
+                <tr>
+                    <td class = "text-center">Disponibilidad</td>
+                    <td class = "text-center">
+                      <li style="list-style: none;">
+                        <i class="fa fa-thumbs-up like-label"></i><%= @disponibility_like.size %>
+                        <i class="fa fa-thumbs-down dislike-label"></i> <%= @disponibility_dislike.size %>
+                      </li>
+                    </td>
+                </tr>
+                <tr>
+                    <td class = "text-center">Enchufes</td>
+                    <td class = "text-center">
+                      <li style="list-style: none;">
+                        <i class="fa fa-thumbs-up like-label"></i> <%= @sockets_like.size %>
+                        <i class="fa fa-thumbs-down dislike-label"></i> <%= @sockets_dislike.size %>
+                      </li>
+                    </td>
+                </tr>
+              </table>
+            </div>
           </div>
         </div>
-      </div>
-      <!-- BOTONES -->
-      <div class="row">
-        <div class="col-md-5">
-          <a class= "btn btn-info btn-xs"></a>
-          <%= link_to "Ver Horarios", schedule_path({campus_id: @classroom.campus_id}),
-                                                      class: "profile-edit-btn" %>
-        </div>
-        <% if @is_connected and @isadmin %>
-        <div class="col-md-3">
-          <a class= "btn btn-warning btn-xs"></a>
-          <%= link_to "Editar", edit_classroom_path(@classroom), class: "profile-edit-btn" %>
-        </div>
-        <div class="col-md-4">
-          <a class= "btn btn-danger btn-xs"></a>
-          <%= link_to "Eliminar", @classroom, method: :delete,
-                              data: { confirm: 'Are you sure?' }, class: "profile-edit-btn" %>
-        </div>
-        <%end %>
-      </div>
-    </div>
-
-    <div class="col-md-8">
-      <div class="row">
-        <div class="col-md-12">
-          <div class="profile-head">
-
-            <ul class="nav nav-tabs" id="myTab" role="tablist">
-              <li class="nav-item">
-                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Eventos</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" id="events-tab" data-toggle="tab" href="#events" role="tab" aria-controls="events" aria-selected="false">Comentarios</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" id="votes-tab" data-toggle="tab" href="#votes" role="tab" aria-controls="votes" aria-selected="false">Calificar</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" id="map-tab" data-toggle="tab" href="#map" role="tab" aria-controls="map" aria-selected="false">Ubicación</a>
-              </li>
-            </ul>
-
+        <!-- BOTONES -->
+        <div class="row">
+          <div class="col-md-5">
+            <a class= "btn btn-info btn-xs"></a>
+            <%= link_to "Ver Horarios", schedule_path({campus_id: @classroom.campus_id}),
+                                                        class: "profile-edit-btn" %>
           </div>
+          <% if @is_connected and @isadmin %>
+          <div class="col-md-3">
+            <a class= "btn btn-warning btn-xs"></a>
+            <%= link_to "Editar", edit_classroom_path(@classroom), class: "profile-edit-btn" %>
+          </div>
+          <div class="col-md-4">
+            <a class= "btn btn-danger btn-xs"></a>
+            <%= link_to "Eliminar", @classroom, method: :delete,
+                                data: { confirm: 'Are you sure?' }, class: "profile-edit-btn" %>
+          </div>
+          <%end %>
         </div>
-
       </div>
-      <div class="row">
-        <div class="col-md-12">
-          <div class="tab-content profile-tab" id="myTabContent">
 
-            <% if current_user %>
-            <!-- Eventos de la Sala -->
-            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-              <% Event.where(classroom_id: @classroom.id).each do |event| %>
-                <div class="row">
-                  <div class="well col-md-12">
-                    <div class="col-md-4">
-                      <label><%= event.title.capitalize %></label>
-                    </div>
-                    <div class="col-md-4">
-                      <label><%= event.event_type %></label>
-                    </div>
-                    <div class="col-md-4">
-                      <a class= "btn btn-info btn-xs"></a>
-                      <%= link_to "Ver Evento", event %>
+      <div class="col-md-8">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="profile-head">
+
+              <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item">
+                  <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Eventos</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" id="events-tab" data-toggle="tab" href="#events" role="tab" aria-controls="events" aria-selected="false">Comentarios</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" id="votes-tab" data-toggle="tab" href="#votes" role="tab" aria-controls="votes" aria-selected="false">Calificar</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" id="map-tab" data-toggle="tab" href="#map" role="tab" aria-controls="map" aria-selected="false">Ubicación</a>
+                </li>
+              </ul>
+
+            </div>
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="tab-content profile-tab" id="myTabContent">
+
+              <% if current_user %>
+              <!-- Eventos de la Sala -->
+              <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                <% Event.where(classroom_id: @classroom.id).each do |event| %>
+                  <div class="row">
+                    <div class="well col-md-12">
+                      <div class="col-md-4">
+                        <label><%= event.title.capitalize %></label>
+                      </div>
+                      <div class="col-md-4">
+                        <label><%= event.event_type %></label>
+                      </div>
+                      <div class="col-md-4">
+                        <a class= "btn btn-info btn-xs"></a>
+                        <%= link_to "Ver Evento", event %>
+                      </div>
                     </div>
                   </div>
-                </div>
+                <% end %>
+                </p>
+              </div>
+              <% else %>
+                Debes estar conectado para ver los eventos
               <% end %>
-              </p>
-            </div>
-            <% else %>
-              Debes estar conectado para ver los eventos
-            <% end %>
-            <!-- Comentarios de la sala -->
-            <div class="tab-pane fade" id="events" role="tabpanel" aria-labelledby="events-tab">
+              <!-- Comentarios de la sala -->
+              <div class="tab-pane fade" id="events" role="tabpanel" aria-labelledby="events-tab">
 
-              <!-- comments container -->
-                  <div class="comment_block">
-                    <h2>Comentarios de la sala:</h2>
+                <!-- comments container -->
+                    <div class="comment_block">
+                      <h2>Comentarios de la sala:</h2>
 
-                   <!-- used by #{user} to create a new comment -->
-                   <div class="create_new_comment">
-
-                    <!-- current #{user} avatar -->
-                    <% if current_user %>
-                    <div class="user_avatar">
-                      <img src=<%= current_user.gravatar_url(:default => "wavatar", :size=>120) %> >
-                    </div><!-- the input field --><div class="input_comment">
-                    <% end %>
-
-                      <% if @is_connected %>
-                        <%= render 'classroomcommentform', classroomcomment: @classroomcomment %>
-                      <% else %>
-                        Necesitas estar conectado para poder comentar los comentarios
-                      <% end %>
-                    </div>
-
-                   </div>
-                   <!-- TODOS LOS COMENTARIOS new comment -->
-
-                   <% @classroom.classroomcomments.order(created_at: :desc).each do |comm| %>
-                   <div class="new_comment">
-
-                    <!-- build comment -->
-                    <ul class="user_comment">
+                     <!-- used by #{user} to create a new comment -->
+                     <div class="create_new_comment">
 
                       <!-- current #{user} avatar -->
+                      <% if current_user %>
                       <div class="user_avatar">
-                        <img src="<%= comm.user.gravatar_url(:default => "wavatar", :size=>120) %>">
-                      </div><!-- the comment body --><div class="comment_body">
-                        <p><%= comm.content %></p>
-                      </div>
+                        <img src=<%= current_user.gravatar_url(:default => "wavatar", :size=>120) %> >
+                      </div><!-- the input field --><div class="input_comment">
+                      <% end %>
 
-                      <!-- comments toolbar -->
-                      <div class="comment_toolbar">
-
-                        <!-- inc. date and time -->
-                        <div class="comment_details">
-                          <ul>
-
-                            <li><i class="fa fa-clock-o"></i> <%= comm.created_at.strftime("%H:%M") %></li>
-                            <li><i class="fa fa-calendar"></i> <%= comm.created_at.strftime("%d-%m-%Y") %></li>
-                            <li><i class="fa fa-user"></i> <span class="user"><a href="/users/<%= comm.user.id %>"><%= comm.user.username %></a></span></li>
-                          </ul>
-                        </div><!-- inc. share/reply and love --><div class="comment_tools">
-                          <ul>
-                            <li><i class="fa fa-thumbs-up like-label"></i> <%= comm.get_likes.size %></li>
-                            <li><i class="fa fa-thumbs-down dislike-label"></i> <%= comm.get_dislikes.size %></li>
-                            <%= button_to "👍", {:controller => "classroomcomments",
-                                                                   :action => "like",
-                                                                   :classroomcommentid => comm.id,
-                                                                   :classroom_id => @classroom.id,
-                                                                   :method => :post},
-                                              {class: 'btn'} %>
-                            <%= button_to "👎", {:controller => "classroomcomments",
-                                                                   :action => "dislike",
-                                                                   :classroomcommentid => comm.id,
-                                                                   :classroom_id => @classroom.id,
-                                                                   :method => :post},
-                                               {class: 'btn-primary'} %>
-                            >
-
-                          </ul>
-                        </div>
-                        <% if @is_connected && @is_admin  %>
-                          <a href="/classroomcomments/<%= comm.id %>/?classroom_id=<%= @classroom.id %>"
-                             data-confirm="¿Estás seguro que quieres borrar este comentario?"
-                             data-method="delete">Eliminar comentario</a>
-
+                        <% if @is_connected %>
+                          <%= render 'classroomcommentform', classroomcomment: @classroomcomment %>
+                        <% else %>
+                          Necesitas estar conectado para poder comentar los comentarios
                         <% end %>
                       </div>
+
+                     </div>
+                     <!-- TODOS LOS COMENTARIOS new comment -->
+
+                     <% @classroom.classroomcomments.order(created_at: :desc).each do |comm| %>
+                     <div class="new_comment">
+
+                      <!-- build comment -->
+                      <ul class="user_comment">
+
+                        <!-- current #{user} avatar -->
+                        <div class="user_avatar">
+                          <img src="<%= comm.user.gravatar_url(:default => "wavatar", :size=>120) %>">
+                        </div><!-- the comment body --><div class="comment_body">
+                          <p><%= comm.content %></p>
+                        </div>
+
+                        <!-- comments toolbar -->
+                        <div class="comment_toolbar">
+
+                          <!-- inc. date and time -->
+                          <div class="comment_details">
+                            <ul>
+
+                              <li><i class="fa fa-clock-o"></i> <%= comm.created_at.strftime("%H:%M") %></li>
+                              <li><i class="fa fa-calendar"></i> <%= comm.created_at.strftime("%d-%m-%Y") %></li>
+                              <li><i class="fa fa-user"></i> <span class="user"><a href="/users/<%= comm.user.id %>"><%= comm.user.username %></a></span></li>
+                            </ul>
+                          </div><!-- inc. share/reply and love --><div class="comment_tools">
+                            <ul>
+                              <li><i class="fa fa-thumbs-up like-label"></i> <%= comm.get_likes.size %></li>
+                              <li><i class="fa fa-thumbs-down dislike-label"></i> <%= comm.get_dislikes.size %></li>
+                              <%= button_to "👍", {:controller => "classroomcomments",
+                                                                     :action => "like",
+                                                                     :classroomcommentid => comm.id,
+                                                                     :classroom_id => @classroom.id,
+                                                                     :method => :post},
+                                                {class: 'btn'} %>
+                              <%= button_to "👎", {:controller => "classroomcomments",
+                                                                     :action => "dislike",
+                                                                     :classroomcommentid => comm.id,
+                                                                     :classroom_id => @classroom.id,
+                                                                     :method => :post},
+                                                 {class: 'btn-primary'} %>
+                              >
+
+                            </ul>
+                          </div>
+                          <% if @is_connected && @is_admin  %>
+                            <a href="/classroomcomments/<%= comm.id %>/?classroom_id=<%= @classroom.id %>"
+                               data-confirm="¿Estás seguro que quieres borrar este comentario?"
+                               data-method="delete">Eliminar comentario</a>
+
+                          <% end %>
+                        </div>
+                      </ul>
+                     </div>
+                     <!-- Final del loop de comentarios-->
+
+                     <% end %>
+
+
+                    </div>
+
+              </div>
+
+              <!-- Votos de la Sala -->
+              <div class="tab-pane fade" id="votes" role="tabpanel" aria-labelledby="votes-tab">
+
+
+                <div class="row">
+                  <div class="col-md-6">
+                    <label><strong>Calificar Tranquilidad:</strong></label>
+                  </div>
+                  <div class="col-md-6">
+                    <ul>
+                      <li style="list-style: none;">
+                        <%= button_to "👍", {:controller => "classrooms",
+                                                             :action => "like_noise",
+                                                             :id => @classroom.id,
+                                                             :method => :post},
+                                        {class: 'btn'} %>
+                        <%= button_to "👎", {:controller => "classrooms",
+                                                               :action => "dislike_noise",
+                                                               :id => @classroom.id,
+                                                               :method => :post},
+                                           {class: 'btn'} %>
+                      </li>
                     </ul>
-                   </div>
-                   <!-- Final del loop de comentarios-->
-
-                   <% end %>
-
-
-                  </div>
-
-            </div>
-
-            <!-- Votos de la Sala -->
-            <div class="tab-pane fade" id="votes" role="tabpanel" aria-labelledby="votes-tab">
-
-
-              <div class="row">
-                <div class="col-md-6">
-                  <label><strong>Calificar Tranquilidad:</strong></label>
-                </div>
-                <div class="col-md-6">
-                  <ul>
-                    <li style="list-style: none;">
-                      <%= button_to "👍", {:controller => "classrooms",
-                                                           :action => "like_noise",
-                                                           :id => @classroom.id,
-                                                           :method => :post},
-                                      {class: 'btn'} %>
-                      <%= button_to "👎", {:controller => "classrooms",
-                                                             :action => "dislike_noise",
-                                                             :id => @classroom.id,
-                                                             :method => :post},
-                                         {class: 'btn'} %>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="col-md-6">
-                  <label><strong>Calificar Disponibilidad:</strong></label>
-                </div>
-                <div class="col-md-6">
-                  <ul>
-                    <li style="list-style: none;">
-                      <%= button_to "👍", {:controller => "classrooms",
-                                                             :action => "like_disponibility",
-                                                             :id => @classroom.id,
-                                                             :method => :post},
-                                        {class: 'btn'} %>
-                      <%= button_to "👎", {:controller => "classrooms",
-                                                             :action => "dislike_disponibility",
-                                                             :id => @classroom.id,
-                                                             :method => :post},
-                                         {class: 'btn'} %>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="col-md-6">
-                  <label><strong>Calificar Enchufes:</strong></label>
-                </div>
-                <div class="col-md-6">
-                  <ul>
-                    <li style="list-style: none;">
-                      <%= button_to "👍", {:controller => "classrooms",
-                                                             :action => "like_sockets",
-                                                             :id => @classroom.id,
-                                                             :method => :post},
-                                        {class: 'btn'} %>
-                      <%= button_to "👎", {:controller => "classrooms",
-                                                             :action => "dislike_sockets",
-                                                             :id => @classroom.id,
-                                                             :method => :post},
-                                         {class: 'btn'} %>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-
-            <!-- Ubicacion -->
-            <div class="tab-pane fade" id="map" role="tabpanel" aria-labelledby="map-tab">
-              <div class="col-md-4">
-                <div class="profile-img">
-                  <iframe width="500" height="400" frameborder="0" src="https://www.bing.com/maps/embed?h=400&w=500&cp=-33.49904135475157~-70.61054420471193&lvl=15&typ=d&sty=r&src=SHELL&FORM=MBEDV8" scrolling="no">
-                  </iframe>
-                  <div style="white-space: nowrap; text-align: center; width: 500px; padding: 6px 0;">
                   </div>
                 </div>
-            </div>
+
+                <div class="row">
+                  <div class="col-md-6">
+                    <label><strong>Calificar Disponibilidad:</strong></label>
+                  </div>
+                  <div class="col-md-6">
+                    <ul>
+                      <li style="list-style: none;">
+                        <%= button_to "👍", {:controller => "classrooms",
+                                                               :action => "like_disponibility",
+                                                               :id => @classroom.id,
+                                                               :method => :post},
+                                          {class: 'btn'} %>
+                        <%= button_to "👎", {:controller => "classrooms",
+                                                               :action => "dislike_disponibility",
+                                                               :id => @classroom.id,
+                                                               :method => :post},
+                                           {class: 'btn'} %>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6">
+                    <label><strong>Calificar Enchufes:</strong></label>
+                  </div>
+                  <div class="col-md-6">
+                    <ul>
+                      <li style="list-style: none;">
+                        <%= button_to "👍", {:controller => "classrooms",
+                                                               :action => "like_sockets",
+                                                               :id => @classroom.id,
+                                                               :method => :post},
+                                          {class: 'btn'} %>
+                        <%= button_to "👎", {:controller => "classrooms",
+                                                               :action => "dislike_sockets",
+                                                               :id => @classroom.id,
+                                                               :method => :post},
+                                           {class: 'btn'} %>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Ubicacion -->
+              <div class="tab-pane fade" id="map" role="tabpanel" aria-labelledby="map-tab" style="size: auto">
+                  <div id="myMap" style="position:relative;width:500px;height:300px;"></div>
+
+              </div>
 
             </div>
           </div>
         </div>
       </div>
-    </div>
-</div>
+  </div>
+</body>

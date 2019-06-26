@@ -142,92 +142,94 @@
   <!------ Include the above in your HEAD tag ---------->
 </head>
 
-<div class="container emp-profile">
+<body class="bg-image">
+  <div class="container emp-profile">
 
-    <!-- Perfil -->
-    <div class="col-md-4">
-      <!-- TITULO DEL PERFIL -->
-      <div class="text-center">
-        <h2>
-        <%= @event.title.capitalize %>
-        </h2>
-      </div>
-      <!-- DESCRIPCION DEL PERFIL -->
-      <div class="row">
-        <div class="col-md-12">
-          <div class="row col-md-12 custyle">
-            <table class="table table-striped custab">
-              <thead>
-              <tr>
-                <th class="text-center"><strong>Autor:</strong></th>
-                <th class="text-center"><%= @author_name %></th>
-              </tr>
-              </thead>
-              <tr>
-                <td class = "text-center"><strong>Sala:</strong></td>
-                <td class = "text-center"><a class= "btn btn-info btn-xs"><%= link_to @event.classroom.title, @event.classroom, :class => 'btn' %></td>
-              </tr>
-              <tr>
-                  <td class = "text-center"><strong>Fecha:</strong></td>
-                  <td class = "text-center"><%= @date_text %></td>
-              </tr>
-              <tr>
-                  <td class = "text-center"><strong>Horario:</strong></td>
-                  <td class = "text-center"><%= @modules[@event.schedule-1] %></td>
-              </tr>
-            </table>
+      <!-- Perfil -->
+      <div class="col-md-4">
+        <!-- TITULO DEL PERFIL -->
+        <div class="text-center">
+          <h2 class="event-title">
+          <%= @event.title.capitalize %>
+          </h2>
+        </div>
+        <!-- DESCRIPCION DEL PERFIL -->
+        <div class="row">
+          <div class="col-md-12">
+            <div class="row col-md-12 custyle">
+              <table class="table table-striped custab">
+                <thead>
+                <tr>
+                  <th class="text-center"><strong>Autor:</strong></th>
+                  <th class="text-center"><%= @author_name %></th>
+                </tr>
+                </thead>
+                <tr>
+                  <td class = "text-center"><strong>Sala:</strong></td>
+                  <td class = "text-center"><a class= "btn btn-info btn-xs"><%= link_to @event.classroom.title, @event.classroom, :class => 'btn' %></td>
+                </tr>
+                <tr>
+                    <td class = "text-center"><strong>Fecha:</strong></td>
+                    <td class = "text-center"><%= @date_text %></td>
+                </tr>
+                <tr>
+                    <td class = "text-center"><strong>Horario:</strong></td>
+                    <td class = "text-center"><%= @modules[@event.schedule-1] %></td>
+                </tr>
+              </table>
+            </div>
           </div>
         </div>
-      </div>
-      <!-- BOTONES -->
-      <div class="row">
-        <div class="col-md-5">
-          <a class= "btn btn-info btn-xs">
-          <%= link_to "Ver Horarios", schedule_path({day: @event.day,
-                                                      campus_id: @event.classroom.campus_id}),
-                                                      class: "profile-edit-btn" %>
-        </div>
-        <% if @is_connected and @is_admin %>
-        <div class="col-md-3">
-          <a class= "btn btn-warning btn-xs">
-          <%= link_to "Editar", edit_event_path(@event), class: "profile-edit-btn" %>
-        </div>
-        <div class="col-md-4">
-          <a class= "btn btn-danger btn-xs">
-          <%= link_to "Eliminar", @event, method: :delete,
-                              data: { confirm: 'Are you sure?' }, class: "profile-edit-btn" %>
-        </div>
-        <%end %>
-      </div>
-    </div>
-
-    <!-- Opciones del perfil (Pestañas) -->
-    <div class="col-md-8">
-      <!-- Header de las pestañas -->
-      <div class="row">
-        <div class="col-md-12">
-          <div class="profile-head">
-            <ul class="nav nav-tabs" id="myTab" role="tablist">
-              <li class="nav-item">
-                <a class="nav-link" id="description-tab" data-toggle="tab" href="#description" role="tab" aria-controls="description" aria-selected="false">Descripción</a>
-              </li>
-            </ul>
-
+        <!-- BOTONES -->
+        <div class="row">
+          <div class="col-md-5">
+            <a class= "btn btn-info btn-xs">
+            <%= link_to "Ver Horarios", schedule_path({day: @event.day,
+                                                        campus_id: @event.classroom.campus_id}),
+                                                        class: "profile-edit-btn" %>
           </div>
+          <% if @is_connected and @is_admin %>
+          <div class="col-md-3">
+            <a class= "btn btn-warning btn-xs">
+            <%= link_to "Editar", edit_event_path(@event), class: "profile-edit-btn" %>
+          </div>
+          <div class="col-md-4">
+            <a class= "btn btn-danger btn-xs">
+            <%= link_to "Eliminar", @event, method: :delete,
+                                data: { confirm: 'Are you sure?' }, class: "profile-edit-btn" %>
+          </div>
+          <%end %>
         </div>
-
       </div>
-      <!-- Informacion de las pestañas -->
-      <div class="row">
-        <div class="col-md-12">
-          <div class="tab-content profile-tab" id="myTabContent">
-            <!-- Descripcion -->
-            <div class="tab-pane fade" id="description" role="tabpanel" aria-labelledby="description-tab">
-              <h4 class="text-info"><%= @event.event_type.capitalize %></h4>
-              <p><%= @event.description %> </p>
+
+      <!-- Opciones del perfil (Pestañas) -->
+      <div class="col-md-8">
+        <!-- Header de las pestañas -->
+        <div class="row">
+          <div class="col-md-12">
+            <div class="profile-head">
+              <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item">
+                  <a class="nav-link" id="description-tab" data-toggle="tab" href="#description" role="tab" aria-controls="description" aria-selected="false">Descripción</a>
+                </li>
+              </ul>
+
+            </div>
+          </div>
+
+        </div>
+        <!-- Informacion de las pestañas -->
+        <div class="row">
+          <div class="col-md-12">
+            <div class="tab-content profile-tab" id="myTabContent">
+              <!-- Descripcion -->
+              <div class="tab-pane fade" id="description" role="tabpanel" aria-labelledby="description-tab">
+                <h4 class="text-info"><%= @event.event_type.capitalize %></h4>
+                <p><%= @event.description %> </p>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-</div>
+  </div>
+</body>

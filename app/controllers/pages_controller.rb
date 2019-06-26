@@ -14,7 +14,8 @@ class PagesController < ApplicationController
     end
   end
   def schedule
-    if params.key?(:day)
+    if params.key?(:day) && params[:day].to_i > Date.strptime(Time.now.strftime("%B %d, %Y"), "%B %d, %Y").yday
+      Date.strptime(Time.now.strftime("%B %d, %Y"), "%B %d, %Y")
       date = Date.strptime("December 31, 2018", "%B %d, %Y")
       @date_text = date + params[:day].to_i
       @day = params[:day]

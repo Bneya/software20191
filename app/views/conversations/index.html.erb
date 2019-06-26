@@ -44,6 +44,7 @@
                 <div class = 'no_underline' >
                   <small class="list-group-item-heading text-muted text-primary"> <%= other.username.capitalize %></small>
                   <% message = conversation.messages.last %>
+                  <% if !message.nil? %>
                   <% if !message.body.nil? %>
                     <p class="list-group-item-text">
                       <%= message.user.username.capitalize + ': ' + message.body.truncate(27) %>
@@ -53,6 +54,8 @@
                       <%= '...' %>
                     </p>
                   <% end %>
+                  <%end %>
+
                 </div>
               <% end %>
             </div>

@@ -23,7 +23,7 @@
         </tr>
     </thead>
             
-            <% @modrequests.each do |mr| %>
+            <% @modrequests.distinct.each do |mr| %>
             <tr>
                 <% @course = Course.find(mr.course_id) %>
                 <%if ((current_user.has_role? :mod, @course) || (current_user.has_role? :admin ))%>
